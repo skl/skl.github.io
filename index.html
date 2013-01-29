@@ -15,7 +15,7 @@ a:hover,a:active {opacity:1.0; color:black}
 
 header{opacity:0.4; text-transform:uppercase; letter-spacing:0}
 nav a:link,nav a:visited{text-decoration:none; font-size:0.625em; padding:10px 10px 10px 0}
-article,footer{padding:0.25em 0 0 0; margin:0.25em 0 5em 0; border-top:1px solid #b2a787}
+article,footer{padding:0.25em 0 0 0; margin:0.25em 0 10em 0; border-top:1px solid #b2a787}
 footer{opacity:0.4; font-size:0.625em; text-transform:uppercase; text-align:right}
 
 h2 {opacity:0.4; text-transform:uppercase; font-size:0.875em; letter-spacing:0.085em}
@@ -41,6 +41,65 @@ p {opacity:0.8; font-size:0.875em}
     <p>Several months ago I built an Intel Core i5 with a SATA III SSD, the intention was to turn it into a gaming machine. Now I find that I've not much time for gaming so I've decided to re-purpose the machine and take advantage of the hardware. One of my ongoing projects is to migrate my webservers and host from home to save on monthly cost and I thought this would be the perfect opportunity to explore the world of the hypervisor.<p>
 
     <p>Wikipedia states that <q>a hypervisor or virtual machine manager (VMM) is a piece of software, firmware or hardware that creates and runs virtual machines</q>.</p>
+
+    <p>I started by reading about what operating systems were best suited to
+    what I would've called the xen host, I now know the correct terminology to
+    be "Domain 0" or <code>dom0</code>. In hypervisor terms each machine is a
+    domain, including the host. It seems you can run Xen on a variety of linux
+    distributions but I noticed quite a bit of documentation and articles
+    focusing on Debian. For this reason I picked Debian Squeeze.</p>
+
+    <p>The SSD which is the primary drive in the system is only 120 GiB, this
+    doesn't leave much room for the VMs. Luckily the Xen wiki recommends LVM
+    which is trivial to setup using the Debian installer. With the LVM
+    partition in place on the drive I can easily grow and shrink partitions as
+    requirements for each virtual machine changes over time.</p>
+
+    <p>I'm keen to keep my web servers secure. One concern that struck me was
+    that VMs would be able to access my home LAN as everything is connected to
+    the same router. To solve this issue I setup four LAN subnets and 802.1q
+    VLAN tagging. This is quite straight forward on Debian Squeeze.</p>
+
+    <p>Setup the VLANs on your router and make note of the tag IDs (10, 20, 30
+    and 40 in my case).</p>
+
+    <p>Enable the 802.1q kernel module and make it permanent:</p>
+
+<code><pre>
+modprobe 8021q && echo '8021q' >> /etc/modules
+</pre></code>
+
+    <p>Once you've done that you'll need to install the vlan package:</p>
+
+<code><pre>
+apt-get install vlan
+</code></pre>
+
+    <p>Setup the /etc/network/interfaces with as many of the above VLANs as you
+    require for that machine.</p>
+
+    <p>In order to give the VMs within the VLANs internet access you'll need to
+    enable IPv4 forwarding and NAT:</p>
+
+<code><pre>
+echo 1 > /proc/sys/net/ipv4/ip_forward
+echo 'net.ipv4.ip_forward=1' > /etc/sysctl.conf
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+</pre></code>
+
+    <p>Ensuring that iptables retains these rules on boot can also be done in
+    <kbd>/etc/network/interfaces</kbd>:</p>
+
+<code><pre>
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet dhcp
+    pre-up iptables-restore < /etc/iptables.conf
+    post-down iptables-save > /etc/iptables.conf
+</pre></code>
+
     </article>
 
     <!-- 2013-01-16 22:37 -->
