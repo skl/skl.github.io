@@ -25,61 +25,93 @@ p {opacity:0.8; font-size:0.875em}
 </head>
 
 <body>
-    <header><nav>
-        <a href="http://delicious.com/skl_">delicious</a>
-        <a href="http://flickr.com/photos/stephenlang">flickr</a>
-        <a href="http://instagram.com/skl85/">instagram</a>
-        <a href="http://github.com/skl">github</a>
-        <a href="http://www.linkedin.com/in/stephenkarllang">linkedin</a>
-        <a href="https://twitter.com/skl_">twitter</a>
-    </nav></header>
+<header><nav>
+    <a href="http://delicious.com/skl_">delicious</a>
+    <a href="http://flickr.com/photos/stephenlang">flickr</a>
+    <a href="http://instagram.com/skl85/">instagram</a>
+    <a href="http://github.com/skl">github</a>
+    <a href="http://www.linkedin.com/in/stephenkarllang">linkedin</a>
+    <a href="https://twitter.com/skl_">twitter</a>
+</nav></header>
 
-    <!-- 2013-01- -->
-    <article id="building-a-xen-hypervisor">
-    <h2><a href="#building-a-xen-hypervisor">§</a> Building a Xen Hypervisor</h2>
+<!-- 2013-01- -->
+<article id="building-a-xen-hypervisor">
+<h2><a href="#building-a-xen-hypervisor">§</a> Building a Xen Hypervisor</h2>
 
-    <p>Several months ago I built an Intel Core i5 with a SATA III SSD, the intention was to turn it into a gaming machine. Now I find that I've not much time for gaming so I've decided to re-purpose the machine and take advantage of the hardware. One of my ongoing projects is to migrate my webservers and host from home to save on monthly cost and I thought this would be the perfect opportunity to explore the world of the hypervisor.<p>
+<p>Wikipedia states that <q>a hypervisor or virtual machine manager (VMM)
+is a piece of software, firmware or hardware that creates and runs
+virtual machines</q>.</p>
 
-    <p>Wikipedia states that <q>a hypervisor or virtual machine manager (VMM) is a piece of software, firmware or hardware that creates and runs virtual machines</q>.</p>
+<p>I started off by reading about what operating systems were best suited to
+what I would've called the Xen host. I now know the correct terminology to
+be "Domain 0" or <code>dom0</code> as hypervisor terminology dictates that each
+machine is a domain, including the host. It seems you can run Xen on a variety
+of Linux distributions but I noticed quite a bit of documentation and articles
+focusing on Debian. For this reason I picked Debian Squeeze.</p>
 
-    <p>I started by reading about what operating systems were best suited to
-    what I would've called the xen host, I now know the correct terminology to
-    be "Domain 0" or <code>dom0</code>. In hypervisor terms each machine is a
-    domain, including the host. It seems you can run Xen on a variety of linux
-    distributions but I noticed quite a bit of documentation and articles
-    focusing on Debian. For this reason I picked Debian Squeeze.</p>
+<p>The primary drive on my target system is 120 GiB, this doesn't leave much
+room for the VMs. Luckily the <a href="http://wiki.xen.org/wiki/Xen_Beginners_Guide">Xen wiki</a>
+recommends <abbr title="Logical Volume Manager">LVM</abbr> which is trivial to setup using
+the Debian installer during OS installation. With the LVM partition in place on the drive I can
+easily grow and shrink partitions as requirements for each virtual machine
+changes over time. This allows me to make the most of what little space I have
+available on the drive.</p>
 
-    <p>The SSD which is the primary drive in the system is only 120 GiB, this
-    doesn't leave much room for the VMs. Luckily the Xen wiki recommends LVM
-    which is trivial to setup using the Debian installer. With the LVM
-    partition in place on the drive I can easily grow and shrink partitions as
-    requirements for each virtual machine changes over time.</p>
+<p>Initial installation and configuration of Xen with Xen Tools can be done by
+following the <a href="http://wiki.debian.org/Xen">guide on the Debian wiki</a>.</p>
 
-    <p>I'm keen to keep my web servers secure. One concern that struck me was
-    that VMs would be able to access my home LAN as everything is connected to
-    the same router. To solve this issue I setup four LAN subnets and 802.1q
-    VLAN tagging. This is quite straight forward on Debian Squeeze.</p>
+<p>One concern that struck me was that VMs would be able to access my home LAN as
+everything is connected to the same router. To solve this issue I setup four LAN subnets and 802.1q
+VLAN tagging in order to create network segregation. The following steps are
+not required to setup Xen, they just happen to suite my particular network
+setup and requirements.</p>
 
-    <p>Setup the VLANs on your router and make note of the tag IDs (10, 20, 30
-    and 40 in my case).</p>
+<p>Setup the VLANs on your router and make note of the tag IDs (10, 20, 30
+and 40 in my case).</p>
 
-    <p>Enable the 802.1q kernel module and make it permanent:</p>
+<p>Enable the 802.1q kernel module and make it permanent:</p>
 
 <code><pre>
 modprobe 8021q && echo '8021q' >> /etc/modules
 </pre></code>
 
-    <p>Once you've done that you'll need to install the vlan package:</p>
+<p>Once you've done that you'll need to install the <kbd>vlan</kbd> package:</p>
 
 <code><pre>
 apt-get install vlan
 </code></pre>
 
-    <p>Setup the /etc/network/interfaces with as many of the above VLANs as you
-    require for that machine.</p>
+<p>Setup the /etc/network/interfaces with as many of the above VLANs as you
+require for the dom0 and domUs, here's mine (shortened for display):</p>
 
-    <p>In order to give the VMs within the VLANs internet access you'll need to
-    enable IPv4 forwarding and NAT:</p>
+<code></pre>
+# The local loopback interface
+auto lo
+iface lo inet loopback
+
+# Instruct all interfaces to startup automatically
+auto eth0
+auto eth0.20 xenbr20
+
+# The only physical interface (Ethernet Port 0)
+iface eth0 inet dhcp
+
+# VLAN ID: 20
+iface eth0.20 inet manual
+    vlan_raw_device eth0
+
+# The Xen Bridge allowing VMs to access VLAN 20
+iface xenbr20 inet static
+    address 10.0.2.2
+    netmask 255.255.255.0
+    gateway 10.0.2.1
+    bridge_ports eth0.20
+    bridge_stp on
+    bridge_maxwait 10
+</pre></code>
+
+<p>In order to give the VMs within the VLANs internet access you'll need to
+enable IPv4 forwarding and NAT on dom0:</p>
 
 <code><pre>
 echo 1 > /proc/sys/net/ipv4/ip_forward
@@ -87,34 +119,68 @@ echo 'net.ipv4.ip_forward=1' > /etc/sysctl.conf
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 </pre></code>
 
-    <p>Ensuring that iptables retains these rules on boot can also be done in
-    <kbd>/etc/network/interfaces</kbd>:</p>
-
+<p>Ensuring that iptables retains these rules on boot:</p>
 <code><pre>
-auto lo
-iface lo inet loopback
-
-auto eth0
-iface eth0 inet dhcp
-    pre-up iptables-restore < /etc/iptables.conf
-    post-down iptables-save > /etc/iptables.conf
+apt-get install iptables-persistent
 </pre></code>
 
-    </article>
 
-    <!-- 2013-01-16 22:37 -->
-    <article id="a-website-in-a-single-http-request">
-    <h2><a href="#a-website-in-a-single-http-request">§</a> A Website in a Single HTTP Request</h2>
+<p>With all of this setup you can begin creating VMs. Here's an example using
+xen-tools to create a VM with hostname 'newvm':</p>
 
-    <p>This website has no assets. There are no CSS files, no external JavaScript sources files, no backend scripting engine and no database storage system. It's just one HTML file and that's it. I've decided to get back to basics with my personal site; maybe because I spend my working life optimising complex systems, it's a sort joyful escape.</p>
+<code><pre>
+xen-create-image --hostname=newvm \ # Each domU should have a different hostname
+    --memory=256mb \
+    --vcpus=1 \
+    --lvm=vg0 \                     # Specify Logical Volume Group within LVM
+    --dhcp \                        # Allow DHCP
+    --pygrub \
+    --dist=squeeze \                # Setting the distribution to Debian Squeeze
+    --passwd                        # Prompt for root password during creation
+</pre></code>
 
-    <p>There's something about plain text that's always appealed to me. Besides character encoding there's not much really to worry about. I know what I'm typing now will display correctly on your laptop/phone/tablet, regardless of your browser &ndash; because there isn't really anything to go wrong. I guess it's like my first car in a way, forget about the electric windows, heated windscreen and all those other fancy gadgets and you still have a car.</p>
+<p>Here's a quick bash script that makes it easy to delete VMs:</p>
 
-    <p>I must admit that resisting the temptation to use CSS3 transitions or pure JavaScript to spice up the interactivity layer is somewhat difficult. It does however provide a nice clean scope for the design. Either I can achieve it with raw HTML and a couple of lines of CSS or I'm simply not going to implement it here. I want to focus on the content of this site, I want to share what I'm learning as it's happening. Designing the next-best has been on my to-do list for too long.</p>
+<code><pre>
+#!/bin/bash
 
-    <p>All content on this site is free to share, just like the web should be.</p>
-    </article>
+[ -z $1 ] && { echo "Specify hostname!"; exit 1; }
 
-    <footer>Stephen Karl Lang <a href="http://creativecommons.org/licenses/by/3.0/">CC BY</a></footer>
+xm destroy $1
+xm delete $1
+xen-delete-image --lvm vg0 $1       # You may wish to change the LVM group here
+</pre></code>
+
+</article>
+
+<!-- 2013-01-16 22:37 -->
+<article id="a-website-in-a-single-http-request">
+<h2><a href="#a-website-in-a-single-http-request">§</a> A Website in a Single HTTP Request</h2>
+
+<p>This website has no assets. There are no CSS files, no external JavaScript
+sources files, no backend scripting engine and no database storage system. It's
+just one HTML file and that's it. I've decided to get back to basics with my
+personal site; maybe because I spend my working life optimising complex
+systems, it's a sort joyful escape.</p>
+
+<p>There's something about plain text that's always appealed to me. Besides
+character encoding there's not much really to worry about. I know what I'm
+typing now will display correctly on your laptop/phone/tablet, regardless of
+your browser &ndash; because there isn't really anything to go wrong. I guess
+it's like my first car in a way, forget about the electric windows, heated
+windscreen and all those other fancy gadgets and you still have a car.</p>
+
+<p>I must admit that resisting the temptation to use CSS3 transitions or pure
+JavaScript to spice up the interactivity layer is somewhat difficult. It does
+however provide a nice clean scope for the design. Either I can achieve it with
+raw HTML and a couple of lines of CSS or I'm simply not going to implement it
+here. I want to focus on the content of this site, I want to share what I'm
+learning as it's happening. Designing the next-best has been on my to-do list
+for too long.</p>
+
+<p>All content on this site is free to share, just like the web should be.</p>
+</article>
+
+<footer>Stephen Karl Lang <a href="http://creativecommons.org/licenses/by/3.0/">CC BY</a></footer>
 </body>
 </html>
