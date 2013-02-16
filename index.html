@@ -146,7 +146,6 @@ xen-create-image --hostname=newvm \ # Each domU should have a different hostname
 
 <code><pre>
 #!/bin/bash
-
 [ -z $1 ] && { echo "Specify hostname!"; exit 1; }
 
 xm destroy $1
