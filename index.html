@@ -135,6 +135,7 @@ iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 <p>Ensuring that iptables retains these rules on boot:</p>
 <code><pre>
 apt-get install iptables-persistent
+iptables-save > /etc/iptables/rules
 </pre></code>
 
 
