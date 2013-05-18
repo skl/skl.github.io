@@ -28,7 +28,7 @@ footer{opacity:0.4; font-size:0.8em; text-transform:uppercase; text-align:right}
 
 h2 {opacity:0.4; font-size:3em; letter-spacing:-0.06em; line-height:1em;}
 h2 a {text-decoration:none; position:absolute; margin:-0.5em 0 0 -0.75em; font-size:0.4em}
-p {opacity:0.8; font-size:1em}
+p, li {opacity:0.8; font-size:1em}
 
 pre {width:100%; overflow:auto; margin:0 0 0 -5%; padding:1.2em 5%; background:#3a3933;
     color:#eeead2; border-top:5px solid #b2a787}
@@ -46,6 +46,127 @@ abbr {border-bottom:1px dashed #807e71; cursor:help}
     <a href="http://www.linkedin.com/in/stephenkarllang">linkedin</a>
     <a href="https://twitter.com/skl_">twitter</a>
 </nav></header>
+
+<!-- 2013-05-18 -->
+<article id="5-minute-lamp-stack">
+<h2><a href="#5-minute-lamp-stack">§</a> The 5-minute LAMP Stack</a></h2>
+
+<p>With the <a href="http://www.debian.org/News/2013/20130504">release</a> of
+Debian 7.0 "Wheezy", PHP 5.4 is available though <code>apt-get</code> from the word go.
+This means it now only takes a few minutes to setup a lightweight web server capable of dealing with
+the latest web applications with very little configuration. I use the term
+<abbr title="Linux, Apache MySQL and PHP">LAMP</abbr> loosely in this article because
+it's easier to pronounce than <abbr title="Linux, NGINX, MySQL and PHP">LNMP</abbr>.</p>
+
+<p>My usual requirements for a web server are as follows:</p>
+<ul>
+  <li>NGINX 1.2+</li>
+  <li>PHP-FPM 5.4+</li>
+  <li>MySQL 5+</li>
+  <li>An SMTP Server <small>(I don't need a full-blown mail server)</small></li>
+</ul>
+
+<p>These are now all available in the Wheezy repositories, so all we need are a few commands.</p>
+
+<p>Firstly, for a fresh build you'll want to get the basics right:</p>
+<code><pre>
+apt-get install vim htop ntp nscd
+
+echo "your.fullyqualified.hostname" > /etc/hostname
+hostname -F /etc/hostname
+
+dpkg-reconfigure tzdata
+</pre></code>
+
+<p>Grab the LAMP packages:</p>
+<code><pre>
+apt-get install nginx php5-cli php5-fpm php5-mysqlnd php5-xcache php5-curl mysql-server mysql-client
+</pre></code>
+
+<p>This is always good practice for your MySQL server:</p>
+<code><pre>
+mysql_secure_installation
+</pre></code>
+
+<p>Setup SMTP, see Linode's <a href="https://library.linode.com/email/exim/send-only-mta-debian-6-squeeze">simple guide</a> for step-by-step instructions on the second command here:</p>
+<code><pre>
+apt-get install exim4-daemon-light mailutils
+dpkg-reconfigure exim4-config
+</pre></code>
+
+<p>Now let's lockdown the server a bit, you may like to use <a href="https://gist.github.com/skl/5484738">this gist</a> as a base for your firewall rules - be sure to read through them though or you'll lock yourself out:</p>
+<code><pre>
+apt-get install iptables-persistent fail2ban
+
+vim /etc/iptables/rules.v4 # Add your rules to this file
+service iptables-persistent restart
+</pre></code>
+
+<p>Time to wire PHP-FPM and NGINX together:</p>
+<code><pre>
+# Disable fix_pathinfo
+sed -i "s/^;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php5/fpm/php.ini
+
+# Tell FPM to use TCP
+sed -i "s/^listen = \/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/" /etc/php5/fpm/pool.d/www.conf
+sed -i "s/^;listen.allowed_clients/listen.allowed_clients/" /etc/php5/fpm/pool.d/www.conf
+
+service php5-fpm restart
+
+mkdir /etc/nginx/global
+</pre></code>
+
+<p>Create the file <code>/etc/nginx/global/fpm.conf</code> and use the following for it's contents:</p>
+<code><pre>
+location ~*\.php$ {
+    try_files                $uri =404;
+
+    fastcgi_split_path_info  ^(.+\.php)(/.+)$;
+    include                  fastcgi_params;
+    fastcgi_index            index.php;
+    fastcgi_param            SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    fastcgi_intercept_errors on;
+    fastcgi_pass             127.0.0.1:9000;
+}
+</pre></code>
+
+<p>Nearly there, create your <code>server</code> block in <code>/etc/nginx/sites-available/your-domain.com</code>:</p>
+<code><pre>
+server {
+    listen 80;
+    server_name  your-domain.com;
+    root         /var/www/your-domain.com;
+    index        index.php;
+    include      /etc/nginx/global/fpm.conf;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+}
+</pre></code>
+
+<p>Finally, symlink your configuration file and reload NGINX:</p>
+<codde><pre>
+ln -s /etc/nginx/sites-available/your-domain.com /etc/nginx/sites-enabled/your-domain.com
+service nginx reload
+</pre></code>
+
+<p>That's it! As long as your DNS is pointing in the right place you should be good to go.</p>
+
+<p>The setup above has been designed to give decent performance for PHP web applications. The
+<code>htop</code> binary gives a much nicer view of resource usage, whilst
+<code>ntp</code> keeps your clock in sync and <code>nscd</code> will cache DNS queries made
+by your web applications.</p>
+
+<p>The PHP Fast-CGI Process Manager allows the web server to delegate
+run-time compilation of your PHP scripts to a separate process, unlike <code>mod_php5</code>
+for Apache. The MySQL Native Driver for PHP is the recommended option above
+<code>mysqli</code> and is part of the PHP core. Xcache will give you opcode caching, you
+could also use <abbr title="Alternative PHP Cache">APC</abbr> or Zend Opcache.</p>
+
+<p>Hopefully all of the above will result in decreased server load, latency and maximise
+throughput on your server by making the most of the available resources.</p>
+</article>
 
 <!-- 2013-01- -->
 <article id="building-a-xen-hypervisor">
