@@ -47,6 +47,78 @@ abbr {border-bottom:1px dashed #807e71; cursor:help}
     <a href="https://twitter.com/skl_">twitter</a>
 </nav></header>
 
+<!-- 2013-05-30 -->
+<article>
+<h2><a href="#expanding-an-lvm-physical-volume">§</a> Expanding an LVM Physical Volume</h2>
+
+<p>I recently purchased a 256GB SSD to replace the 120GB drive that I originally
+built into my Debian Xen host. Having powered off the machine, connected the new drive and
+booted into the Knoppix Live CD, I copied the data using <code>dd</code>. The following
+will execute the drive-to-drive clone as a background process:</p>
+
+<code><pre>
+fdisk -l # identify your source (if) and destination (of) devices
+dd if=/dev/sdb of=/dev/sda bs=32M &
+</pre></code>
+
+<p>Note the blocksize of <q>32M</q>, this increased the data transfer rate from 40-50MB/s up
+to 240-250MB/s in my case. The clone took approximately ten minutes, it would have taken nearly an hour with the default blocksize. You can inspect the progress of the operation by signalling the
+Process ID which was output from the <code>dd</code> command:</p>
+
+<code><pre>
+kill -SIGUSR1 &lt;pid&gt;
+</pre></code>
+
+<p>As I have the maximum of three primary and one extended partitions
+(<code>boot</code>, <code>root</code>, <code>swap</code> and <code>lvm</code> respectively) I
+opted to grow the extended partition and the LVM physical volume that resides within it. I first
+rebooted back into the Knoppix Live CD after removing the old drive (otherwise you may see
+<q>Found duplicate PV</q> error messages).</p>
+
+<p>The next step was to expand the fourth (extended) partition of the new drive to fill
+the available space:</p>
+
+<code><pre>
+parted /dev/sda
+u s # Change Unit to Sectors
+print # Display current partitions
+</pre></code>
+
+<p>At this point take note of the starting sector of the fourth partition (<code>37611518</code>
+in my case) and the final sector of the disk (<code>231252993</code>). Now delete the fourth
+partition and create the new partition with the same starting sector (this ensures the data
+within the partition remains readable) and set the new final sector:</p>
+
+<code><pre>
+rm 4
+mkpart extended 37611518s 500117503s
+</pre></code>
+
+<p>Now do the same for the LVM partition:</p>
+
+<code><pre>
+rm 5
+mkpart extended 37611518s 500117503s
+toggle 5 lvm
+quit
+</pre></code>
+
+<p>The <code>quit</code> command will take you back to the normal prompt. It is recommended
+that you reboot the machine again at this point. Now you can see the current reported size
+of your LVM physical volume using the <code>pvscan</code> binary. To increase the size
+of the physical volume and take advantage of the newly available space, execute the
+<code>pvresize</code> binary:</p>
+
+<code><pre>
+pvresize /dev/sda5
+</pre></code>
+
+<p>Run <code>pvscan</code> again and the new size should be displayed. I use the
+<code>vgs</code> binary to give a nice readout of the available space within the volume
+group. Note this hasn't increased the size of any of the logical volumes within the
+volume group, only the physical volume itself.</p>
+</article>
+
 <!-- 2013-05-18 -->
 <article id="the-5-minute-lamp-stack">
 <h2><a href="#the-5-minute-lamp-stack">§</a> The 5-minute LAMP Stack</a></h2>
