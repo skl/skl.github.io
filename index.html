@@ -47,8 +47,44 @@ abbr {border-bottom:1px dashed #807e71; cursor:help}
     <a href="https://twitter.com/skl_">twitter</a>
 </nav></header>
 
+<!-- 2013-06-02 -->
+<article id="improving-xen-performance-on-debian">
+<h2><a href="#improving-xen-performance-on-debian">§</a> Improving Xen Performance on Debian</h2>
+
+<p>There are several <a href="http://wiki.xen.org/wiki/Xen_Best_Practices">Xen Best Practices</a>
+set out on the Xen wiki, however they did not directly translate to Xen 4 on Debian Squeeze.
+The general idea is to dedicate some resources to dom0 (in this case an entire CPU core) so that
+it can cleanly deal with all the domU IO. Given a multi-core CPU you can specify which cores in each domU
+should use by specifying the following line each <code>&lt;domain&gt;.cfg</code> file:</p>
+<code><pre>
+cpus = '2-3'
+</pre></code>
+
+<p>The above will set the domU to use CPU cores 3 and 4 (the <code>cpus</code> parameter is zero
+indexed). By setting a even distribution of assigned CPU cores amongst your domUs, you are
+helping to spread the load. Taking this a step further, if you assign all of your domUs a non-zero
+value for the parameter above, you can dedicate a single CPU core for dom0 by adding the following to
+<code>/etc/default/grub</code>:</p>
+<code><pre>
+GRUB_CMDLINE_XEN_DEFAULT="dom0_mem=512M,max:512M dom0_max_vcpus=1 dom0_vcpus_pin"
+</pre></code>
+
+<p>Then execute <code>update-grub</code> and reboot the host machine. Incidently, this will also
+fix the amount of allocated RAM to dom0 at 512MB (disabling ballooning). Be aware, some guides
+recommend adding <code>nosmp</code> to the boot flags, this is a Bad Idea&trade; and will render
+multi-CPU domUs nearly unusable. You can also execute the following after the reboot to prioritise
+the dom0 CPU cycles:</p>
+
+<code><pre>
+xm sched-credit -d Domain-0 -w 512
+</pre></code>
+
+<p>You need to execute the above on each boot so it might be an idea to create an init script,
+the Xen wiki recommends that it should be one of the last things to execute in the boot process.</p>
+</article>
+
 <!-- 2013-05-30 -->
-<article>
+<article id="expanding-an-lvm-physical-volume">
 <h2><a href="#expanding-an-lvm-physical-volume">§</a> Expanding an LVM Physical Volume</h2>
 
 <p>I recently purchased a 256GB SSD to replace the 120GB drive that I originally
