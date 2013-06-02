@@ -54,7 +54,7 @@ abbr {border-bottom:1px dashed #807e71; cursor:help}
 <p>There are several <a href="http://wiki.xen.org/wiki/Xen_Best_Practices">Xen Best Practices</a>
 set out on the Xen wiki, however they did not directly translate to Xen 4 on Debian Squeeze.
 The general idea is to dedicate some resources to dom0 (in this case an entire CPU core) so that
-it can cleanly deal with all the domU IO. Given a multi-core CPU you can specify which cores in each domU
+it can cleanly deal with all the domU IO. Given a multi-core CPU you can specify which cores each domU
 should use by specifying the following line each <code>&lt;domain&gt;.cfg</code> file:</p>
 <code><pre>
 cpus = '2-3'
