@@ -46,6 +46,30 @@ abbr {border-bottom:1px dashed #807e71; cursor:help}
     <a href="http://www.linkedin.com/in/stephenkarllang">linkedin</a>
     <a href="https://twitter.com/skl_">twitter</a>
 </nav></header>
+<!-- 2013-06-25 -->
+<article id="arch-linux-arm-with-unified-bin-and-lib-for-raspberry-pi">
+<h2><a href="#arch-linux-arm-with-unified-bin-and-lib-for-raspberry-pi">§</a> Arch Linux ARM with unified /bin and /lib for Raspberry Pi</h2>
+
+<p>The latest Arch Linux disk image for Raspberry Pi (2013-06-06) contains a couple of key
+changes that may require a re-image to your SD card. I was running an image of Arch from what must have been a little
+over a month ago when I attempted a <code>pacman -Syu</code> today. This failed with the error:</p>
+
+<code><pre>
+error: failed to commit transaction (conflicting files)
+filesystem: /bin exists in filesystem
+</pre></code>
+
+<p>This error is <a href="https://www.archlinux.org/news/binaries-move-to-usrbin-requiring-update-intervention/">documented</a>
+on the Arch wiki, however the suggested fix starting with <code>pacman -Qqo /bin /sbin /usr/sbin | pacman -Qm -</code>
+failed for me with an <q>out of memory</q> error. I try to execute the command with only <code>/bin</code> but it
+was taking so long I ended up <code>dd</code>'ing the SD card with the 2013-06-06 image. The new image comes with
+the unified <code>/bin</code> and <code>/lib</code> directories out of the box so that this is no longer an issue.</p>
+
+<p>Secondly, it's been a while since I've been in the Arch shell and discovered <code>/etc/rc.d</code> is no more, or
+at least it isn't what it used to be. Arch have shifted to the increasingly popular <code>systemd</code> with a
+rather nice explanation over on this <a href="https://bbs.archlinux.org/viewtopic.php?pid=1149530#p1149530">forum post</a>.</p>
+</article>
+
 
 <!-- 2013-06-02 -->
 <article id="improving-xen-performance-on-debian">
