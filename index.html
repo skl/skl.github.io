@@ -46,6 +46,32 @@ abbr {border-bottom:1px dashed #807e71; cursor:help}
     <a href="http://www.linkedin.com/in/stephenkarllang">linkedin</a>
     <a href="https://twitter.com/skl_">twitter</a>
 </nav></header>
+<!-- 2013-07-09 -->
+<article id="php-fpm-child-exited-with-code-70">
+    <h2><a href="#php-fpm-child-exited-with-code-70">§</a> PHP-FPM: Child exited with code 70</h2>
+
+    <p>I came across an issue today on one of the production servers at work where the <code>php-fpm.log</code> contained
+    entries similar to the following:</p>
+
+<code><pre>
+[09-Jul-2013 14:17:42] WARNING: [pool www] child 18868 exited with code 70 after 211.761716 seconds from start
+</code></pre>
+
+    <p>I managed to reproduce this on PHP 5.4.13 and 5.4.14 and nginx 1.2.7 and 1.2.8. Nothing was appearing in the PHP
+        error log or syslog. There was a related entry in the nginx error log:</p>
+
+<code><pre>recv() failed (104: Connection reset by peer) while reading response header from upstream</code></pre>
+
+    <p>This actually ended up being caused by an <code>ini_set('memory_limit', '16M')</code>, which when removed and
+    relying on the <code>128M</code> set by <code>php.ini</code> instead resolved the issue.</p>
+
+    <p>By the way, I was unable to find any reference to the <q>exited with code 70</q> message on Google. After digging through the
+    PHP source code it appears to equate to the constant <code>FPM_EXIT_SOFTWARE</code> defined in
+    <a href="https://github.com/php/php-src/blob/master/sapi/fpm/fpm/fpm.h#L29"><code>fpm.h</code></a>. It's used in
+    <code>fpm_main.c</code>, <code>fpm_process_ctl.c</code> and <code>fpm_unix.c</code>. I thought I'd stick these refences on here in the hope that it may help
+    someone who's searching for the same error.</p>
+</article>
+
 <!-- 2013-06-25 -->
 <article id="arch-linux-arm-with-unified-bin-and-lib-for-raspberry-pi">
 <h2><a href="#arch-linux-arm-with-unified-bin-and-lib-for-raspberry-pi">§</a> Arch Linux ARM with unified /bin and /lib for Raspberry Pi</h2>
