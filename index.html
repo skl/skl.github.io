@@ -46,6 +46,88 @@ abbr {border-bottom:1px dashed #807e71; cursor:help}
     <a href="http://www.linkedin.com/in/stephenkarllang">linkedin</a>
     <a href="https://twitter.com/skl_">twitter</a>
 </nav></header>
+<!-- 2013-07-18 -->
+<article id="vagrant-bridged-network-configuration-on-sles-11">
+<h2><a href="#vagrant-bridged-network-configuration-on-sles-11">§</a> Vagrant: Bridged Network Configuration on SLES 11</h2>
+
+<p><a href="http://www.vagrantup.com/">Vagrant</a> simplifies the creation of virtual machines by providing a layer atop,
+in my case, <a href="https://www.virtualbox.org/">VirtualBox</a>. Static IP address assignment through bridged network adapters is not yet available by default in the
+<code>Vagrantfile</code> configuration (this article is based on Vagrant 1.2.2). To achieve this on a SLES 11 VM, you
+need to manually configure the interface. Firstly, inform Vagrant that you wish to use custom bridged networking by
+adding the following to your <code>Vagrantfile</code>:</p>
+
+<code><pre>
+# Set "XXXXXX" to your desired MAC address suffix for this VM
+config.vm.network :public_network, :auto_config =&gt; false, :mac =&gt; "080027XXXXXX"
+
+# Run `./bootstrap.sh` once the VM is online
+config.vm.provision :shell do |s|
+  s.path = "bootstrap.sh"
+end
+</pre></code>
+
+<p>The reason that you should also set a static MAC address is so that your network gateway ARP table remains
+correct even after a <code>vagrant destroy &amp;&amp; vagrant up</code>. By default, a new MAC address is generated
+for you per instance and you would have to wait for the ARP cache to clear before a new route would be established.</p>
+
+<p>As you can see from above you need to create a <code>bootstrap.sh</code> file in the same directory as your
+<code>Vagrantfile</code>. Populate <code>bootstrap.sh</code> with the following:</p>
+
+<code><pre>
+#!/bin/bash
+#
+# This file is designed to be called by `vagrant up`:
+# usage: ./bootstrap.sh
+
+# Desired static and router IP addresses
+MY_STATIC_IP=192.168.1.10
+MY_ROUTER_IP=192.168.1.1
+
+# Desired hostname and fully-qualified domain name
+MY_HOSTNAME="my-hostname"
+MY_FQDN="${MY_HOSTNAME}.domain.local"
+
+# Create the network interface 'eth1'
+sudo tee /etc/sysconfig/network/ifcfg-eth1 &lt;&lt;EOF
+BOOTPROTO=static
+BROADCAST=192.168.1.255
+IPADDR=${MY_STATIC_IP}
+NETMASK=255.255.255.0
+NETWORK=${MY_ROUTER_IP}
+STARTMODE='auto'
+USERCONTROL='no'
+DEVICE=eth1
+EOF
+
+# Set the default gateway
+sudo tee /etc/sysconfig/network/routes &lt;&lt;EOF
+# Destination   Gateway                 Netmask                 Device
+0.0.0.0         ${MY_ROUTER_IP}         0.0.0.0                 eth1
+EOF
+
+sudo /sbin/service network restart
+
+# Set the hostname (Vagrant seems to do this incorrectly for SLES)
+sudo sed -i "s/.*/${MY_FQDN}/" /etc/HOSTNAME
+sudo sed -i "s/127.0.0.2/#127.0.0.2/" /etc/hosts
+sudo tee -a /etc/hosts &lt;&lt;EOF
+${MY_STATIC_IP}   ${MY_FQDN} ${MY_HOSTNAME}
+EOF
+sudo hostname -F /etc/HOSTNAME
+
+# Notify the gateway
+echo "Waiting a couple of seconds before attempting to ping the gateway..."
+sleep 2
+ping -Ieth1 -c1 ${MY_ROUTER_IP}
+</pre></code>
+
+<p>Be sure to set <code>MY_STATIC_IP</code> and <code>MY_ROUTER_IP</code> to suit your network setup. You may also
+set the desired hostname of the machine by editing <code>MY_HOSTNAME</code> and <code>MY_FQDN</code> as the
+<code>Vagrantfile</code> option <code>config.vm.hostname</code> is not currently compatiable with SLES 11.</p>
+
+<p>There is a <a href="https://github.com/mitchellh/vagrant/issues/743">thread</a> about adding support for static IP address assignment into Vagrant on Github.</p>
+</article>
+
 <!-- 2013-07-09 -->
 <article id="php-fpm-child-exited-with-code-70">
     <h2><a href="#php-fpm-child-exited-with-code-70">§</a> PHP-FPM: Child exited with code 70</h2>
