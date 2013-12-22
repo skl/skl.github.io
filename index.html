@@ -23,11 +23,13 @@ a:hover,a:active {opacity:1.0; color:black}
 
 header{opacity:0.4; text-transform:uppercase; letter-spacing:0.07em; padding:0 0 0 1em;}
 nav a:link,nav a:visited{text-decoration:none; font-size:0.8em; padding:10px 10px 10px 0}
-article,footer{padding:0.25em 0 0 0; margin:0 0 8em 0; border-top:1px solid #b2a787}
+article,footer{padding:1em 0 0 0; margin:0 0 8em 0; border-top:1px solid #b2a787}
 footer{opacity:0.4; font-size:0.8em; text-transform:uppercase; text-align:right}
 
 h2 {opacity:0.45; font-size:3em; letter-spacing:-0.06em; line-height:1em;}
 h2 a {text-decoration:none; position:absolute; margin:-0.5em 0 0 -0.75em; font-size:0.4em}
+h2 time {position:absolute; font-size:0.3em; font-family:Georgia, serif; letter-spacing:normal;
+    line-height:1em; opacity:0.7; margin:-1.5em 0 0 0; padding:0}
 h6 {opacity:0.35; font-size:1.75em; letter-spacing:-0.06em; line-height:0.75em; padding:0; margin:1em 0 0; cursor:default}
 p, li {opacity:0.8; font-size:1em}
 
@@ -66,9 +68,10 @@ abbr {border-bottom:1px dashed #807e71; cursor:help}
 <a href="#a-website-in-a-single-http-request">A Website in a Single HTTP Request</a>
 </nav>
 
-<!-- 2013-12-22 -->
+
 <article id="installing-crunchbang-linux-on-a-mid-2011-macbook-air">
 <h2><a href="#installing-crunchbang-linux-on-a-mid-2011-macbook-air">§</a>
+    <time datetime="2013-12-22">22<sup>nd</sup> December 2013</time>
     Installing Crunchbang Linux on a Mid 2011 MacBook Air</h2>
 
 <p>After attending a lecture by Richard Stallman at the University of Lincoln, I felt somewhat compelled to "liberate"
@@ -130,9 +133,10 @@ To get the keyboard backlight to work and to map it to the keyboard hotkeys, sim
 <a href="#">Back to top</a>
 </article>
 
-<!-- 2013-07-18 -->
+
 <article id="vagrant-bridged-network-configuration-on-sles-11">
 <h2><a href="#vagrant-bridged-network-configuration-on-sles-11">§</a>
+    <time datetime="2013-07-18">18<sup>th</sup> July 2013</time>
     Vagrant: Bridged Network Configuration on SLES 11</h2>
 
 <p><a href="http://www.vagrantup.com/">Vagrant</a> simplifies the creation of virtual machines by providing a layer atop,
@@ -215,9 +219,10 @@ set the desired hostname of the machine by editing <code>MY_HOSTNAME</code> and 
 <a href="#">Back to top</a>
 </article>
 
-<!-- 2013-07-09 -->
+
 <article id="php-fpm-child-exited-with-code-70">
 <h2><a href="#php-fpm-child-exited-with-code-70">§</a>
+    <time datetime="2013-07-09">9<sup>th</sup> July 2013</time>
     PHP-FPM: Child exited with code 70</h2>
 
 <p>I came across an issue today on one of the production servers at work where the <code>php-fpm.log</code> contained
@@ -244,9 +249,10 @@ someone who's searching for the same error.</p>
 <a href="#">Back to top</a>
 </article>
 
-<!-- 2013-06-25 -->
+
 <article id="arch-linux-arm-with-unified-bin-and-lib-for-raspberry-pi">
 <h2><a href="#arch-linux-arm-with-unified-bin-and-lib-for-raspberry-pi">§</a>
+    <time datetime="2013-06-25">25<sup>th</sup> June 2013</time>
     Arch Linux ARM with unified /bin and /lib for Raspberry Pi</h2>
 
 <p>The latest Arch Linux disk image for Raspberry Pi (2013-06-06) contains a couple of key
@@ -272,9 +278,9 @@ rather nice explanation over on this <a href="https://bbs.archlinux.org/viewtopi
 </article>
 
 
-<!-- 2013-06-02 -->
 <article id="improving-xen-performance-on-debian">
 <h2><a href="#improving-xen-performance-on-debian">§</a>
+    <time datetime="2013-06-02">2<sup>nd</sup> June 2013</time>
     Improving Xen Performance on Debian</h2>
 
 <p>There are several <a href="http://wiki.xen.org/wiki/Xen_Best_Practices">Xen Best Practices</a>
@@ -311,9 +317,10 @@ the Xen wiki recommends that it should be one of the last things to execute in t
 <a href="#">Back to top</a>
 </article>
 
-<!-- 2013-05-30 -->
+
 <article id="expanding-an-lvm-physical-volume">
 <h2><a href="#expanding-an-lvm-physical-volume">§</a>
+    <time datetime="2013-05-30">30<sup>th</sup> May 2013</time>
     Expanding an LVM Physical Volume</h2>
 
 <p>I recently purchased a 256GB SSD to replace the 120GB drive that I originally
@@ -386,9 +393,10 @@ volume group, only the physical volume itself.</p>
 <a href="#">Back to top</a>
 </article>
 
-<!-- 2013-05-18 -->
+
 <article id="the-5-minute-lamp-stack">
 <h2><a href="#the-5-minute-lamp-stack">§</a>
+    <time datetime="2013-05-18">18<sup>th</sup> May 2013</time>
     The 5-minute LAMP Stack</h2>
 
 <p>With the <a href="http://www.debian.org/News/2013/20130504">release</a> of
@@ -510,9 +518,10 @@ throughput on your server by making the most of the available resources.</p>
 <a href="#">Back to top</a>
 </article>
 
-<!-- 2013-01- -->
+
 <article id="building-a-xen-hypervisor">
 <h2><a href="#building-a-xen-hypervisor">§</a>
+    <time datetime="2013-01-21">21<sup>st</sup> January 2013</time>
     Building a Xen Hypervisor</h2>
 
 <p>Wikipedia states that <q>a hypervisor or virtual machine manager (VMM)
@@ -634,9 +643,10 @@ xen-delete-image --lvm vg0 $1       # You may wish to change the LVM group here
 <a href="#">Back to top</a>
 </article>
 
-<!-- 2013-01-16 22:37 -->
+
 <article id="a-website-in-a-single-http-request">
 <h2><a href="#a-website-in-a-single-http-request">§</a>
+    <time datetime="2013-01-16">16<sup>th</sup> January 2013</time>
     A Website in a Single HTTP Request</h2>
 
 <p>This website has no assets. There are no CSS files, no external JavaScript
