@@ -46,6 +46,68 @@ abbr {border-bottom:1px dashed #807e71; cursor:help}
     <a href="http://www.linkedin.com/in/stephenkarllang">linkedin</a>
     <a href="https://twitter.com/skl_">twitter</a>
 </nav></header>
+
+<!-- 2013-12-22 -->
+<article id="installing-crunchbang-linux-on-a-mid-2011-macbook-air">
+<h2><a href="#installing-crunchbang-linux-on-a-mid-2011-macbook-air">§</a> Installing Crunchbang Linux on a Mid 2011 MacBook Air</h2>
+
+<p>After attending a lecture by Richard Stallman at the University of Lincoln, I felt somewhat compelled to "liberate"
+my MacBook Air by dual-booting a flavour of the GNU/Linux operating system. I read various articles proposing different
+approaches, with Ubuntu and rEFIt being seemingly the easiest/popular choice. The Unity interface is not my
+preference however, so I decided to look at other distributions with lightweight window managers that were known
+to work on the MacBook Air. An excellent <a href="http://eriktrips.com/2013/03/31/dual-booting-crunchbang-linux-and-os-x-lion-on-a-macbook-air-41/">set of notes</a>
+popped up in one search suggesting Crunchbang Linux, which turns out to be based on Debian and Openbox - perfect!</p>
+
+<p>The article linked above by Erik Schneider was straight forward to follow, my experience only differed in a couple
+of places. Firstly I created a 40GB partition, not 8GB, as this was to become my new primary development environment.</p>
+
+<p>Secondly, after the installation of the Crunchbang OS, the live version of Crunchbang (which booted from a USB image)
+was entirely useless. Although it did manage to boot and reach the desktop, every menu option I tried (including
+launching the terminal) failed with various error messages. At this point I instead burned a Knoppix DVD (which
+includes the 64-bit OS as opposed to the 32-bit only CD) and booted it with the flag <code>knoppix64</code> which you
+enter when the <code>boot: _</code> prompt appears. Using this approach I managed to continue with the <code>chroot</code>
+portion of the notes and install the required packages with <code>apt-get</code>. The grub package versions did not
+require any customisation as Crunchbang is now based on Debian Wheezy (whereas it was based on the ealier Debian
+Squeeze in the article). Getting the WiFi adapter to work is as easy as <code>apt-get install firmware-brcm80211</code>.</p>
+
+<p>Finally, I added a few lines to <code>~/.config/openbox/autostart</code>:</p>
+
+<code><pre>
+## 1-finger tap left-click, 2-finger tap right-click and 3-finger middle-click
+synclient TapButton1=1 TapButton2=3 TapButton3=2 &
+
+## Load custom key map, baselining to GB layout first
+( sleep 1 && setxkbmap gb && xmodmap ~/.Xmodmap ) &
+
+## Dim the LCD (apt-get install xbacklight for dependency)
+( sleep 1 && xbacklight -set 10 ) &
+
+## Slightly increase the gamma (roughly calibrated to 1.8)
+( sleep 1 && xgamma -gamma 1.150 ) &
+</pre></code>
+
+<p>Here's my <code>~/.Xmodmap</code> (with Caps Lock remapped to Control for my Vim tendencies):</p>
+
+<code><pre>
+keycode  11 = 2 at 2 at twosuperior oneeighth twosuperior
+keycode  48 = apostrophe quotedbl apostrophe quotedbl dead_circumflex dead_caron dead_circumflex
+keycode  49 = section plusminus section plusminus bar bar bar
+keycode  51 = backslash bar
+keycode  66 = Caps_Lock NoSymbol Caps_Lock
+keycode  94 = grave asciitilde
+add lock = Caps_Lock
+remove lock = Caps_Lock
+add control = Control_L Control_R
+remove Control = Control_L
+keysym Caps_Lock = Control_L
+add Control = Control_L
+</pre></code>
+
+<p>Be sure to reboot after the changes to the <code>autostart</code> script to make sure the keymap loads correctly.
+To get the keyboard backlight to work and to map it to the keyboard hotkeys, simply follow
+<a href="http://crunchbang.org/forums/viewtopic.php?id=26772">this article</a> from the Crunchbang forum.</p>
+</article>
+
 <!-- 2013-07-18 -->
 <article id="vagrant-bridged-network-configuration-on-sles-11">
 <h2><a href="#vagrant-bridged-network-configuration-on-sles-11">§</a> Vagrant: Bridged Network Configuration on SLES 11</h2>
