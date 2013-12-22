@@ -23,33 +23,54 @@ a:hover,a:active {opacity:1.0; color:black}
 
 header{opacity:0.4; text-transform:uppercase; letter-spacing:0.07em; padding:0 0 0 1em;}
 nav a:link,nav a:visited{text-decoration:none; font-size:0.8em; padding:10px 10px 10px 0}
-article,footer{padding:0.25em 0 0 0; margin:0.25em 0 8em 0; border-top:1px solid #b2a787}
+article,footer{padding:0.25em 0 0 0; margin:0 0 8em 0; border-top:1px solid #b2a787}
 footer{opacity:0.4; font-size:0.8em; text-transform:uppercase; text-align:right}
 
-h2 {opacity:0.4; font-size:3em; letter-spacing:-0.06em; line-height:1em;}
+h2 {opacity:0.45; font-size:3em; letter-spacing:-0.06em; line-height:1em;}
 h2 a {text-decoration:none; position:absolute; margin:-0.5em 0 0 -0.75em; font-size:0.4em}
+h6 {opacity:0.35; font-size:1.75em; letter-spacing:-0.06em; line-height:0.75em; padding:0; margin:1em 0 0; cursor:default}
 p, li {opacity:0.8; font-size:1em}
 
 pre {width:100%; overflow:auto; margin:0 0 0 -5%; padding:1.2em 5%; background:#3a3933;
     color:#eeead2; border-top:5px solid #b2a787}
-kbd, code {font-size:1.1em; font-family:, 'Andale Mono', 'Droid Sans Mono', 'Courier New', monospace; letter-spacing:0.1em}
+kbd, code {font-size:1em; font-family:'Andale Mono','Droid Sans Mono','Courier New',monospace; letter-spacing:0.1em}
+p code {font-size:0.9em; line-height:1.6em;}
 abbr {border-bottom:1px dashed #807e71; cursor:help}
+
+#toc {letter-spacing:0.05em; opacity:0.9; padding:0; height:7.4em; overflow:hidden}
+#toc:hover {overflow:auto}
+#toc a {display:block; padding:0 0 0 16px; line-height:2.25em; border-top:1px solid #b2a787}
+#toc a:hover {background-color:#b2a787; opacity:0.6}
 </style>
 </head>
 
 <body>
 <header><nav>
-    <a href="http://delicious.com/skl_">delicious</a>
-    <a href="http://flickr.com/photos/stephenlang">flickr</a>
-    <a href="http://github.com/skl">github</a>
-    <a href="http://instagram.com/skl85/">instagram</a>
-    <a href="http://www.linkedin.com/in/stephenkarllang">linkedin</a>
-    <a href="https://twitter.com/skl_">twitter</a>
+<a href="http://delicious.com/skl_">delicious</a>
+<a href="http://flickr.com/photos/stephenlang">flickr</a>
+<a href="http://github.com/skl">github</a>
+<a href="http://instagram.com/skl85/">instagram</a>
+<a href="http://www.linkedin.com/in/stephenkarllang">linkedin</a>
+<a href="https://twitter.com/skl_">twitter</a>
 </nav></header>
+
+<h6 title="Scroll over the list for more">Articles</h6>
+<nav id="toc">
+<a href="#installing-crunchbang-linux-on-a-mid-2011-macbook-air">Installing Crunchbang Linux on a Mid 2011 MacBook Air</a>
+<a href="#vagrant-bridged-network-configuration-on-sles-11">Vagrant: Bridged Network Configuration on SLES 11</a>
+<a href="#php-fpm-child-exited-with-code-70">PHP-FPM: Child exited with code 70</a>
+<a href="#arch-linux-arm-with-unified-bin-and-lib-for-raspberry-pi">Arch Linux ARM with unified /bin and /lib for Raspberry Pi</a>
+<a href="#improving-xen-performance-on-debian">Improving Xen Performance on Debian</a>
+<a href="#expanding-an-lvm-physical-volume">Expanding an LVM Physical Volume</a>
+<a href="#the-5-minute-lamp-stack">The 5-minute LAMP Stack</a>
+<a href="#building-a-xen-hypervisor">Building a Xen Hypervisor</a>
+<a href="#a-website-in-a-single-http-request">A Website in a Single HTTP Request</a>
+</nav>
 
 <!-- 2013-12-22 -->
 <article id="installing-crunchbang-linux-on-a-mid-2011-macbook-air">
-<h2><a href="#installing-crunchbang-linux-on-a-mid-2011-macbook-air">§</a> Installing Crunchbang Linux on a Mid 2011 MacBook Air</h2>
+<h2><a href="#installing-crunchbang-linux-on-a-mid-2011-macbook-air">§</a>
+    Installing Crunchbang Linux on a Mid 2011 MacBook Air</h2>
 
 <p>After attending a lecture by Richard Stallman at the University of Lincoln, I felt somewhat compelled to "liberate"
 my MacBook Air by dual-booting a flavour of the GNU/Linux operating system. I read various articles proposing different
@@ -74,16 +95,16 @@ Squeeze in the article). Getting the WiFi adapter to work is as easy as <code>ap
 
 <code><pre>
 ## 1-finger tap left-click, 2-finger tap right-click and 3-finger middle-click
-synclient TapButton1=1 TapButton2=3 TapButton3=2 &
+synclient TapButton1=1 TapButton2=3 TapButton3=2 &amp;
 
 ## Load custom key map, baselining to GB layout first
-( sleep 1 && setxkbmap gb && xmodmap ~/.Xmodmap ) &
+( sleep 1 &amp;&amp; setxkbmap gb &amp;&amp; xmodmap ~/.Xmodmap ) &amp;
 
 ## Dim the LCD (apt-get install xbacklight for dependency)
-( sleep 1 && xbacklight -set 10 ) &
+( sleep 1 &amp;&amp; xbacklight -set 10 ) &amp;
 
 ## Slightly increase the gamma (roughly calibrated to 1.8)
-( sleep 1 && xgamma -gamma 1.150 ) &
+( sleep 1 &amp;&amp; xgamma -gamma 1.150 ) &amp;
 </pre></code>
 
 <p>Here's my <code>~/.Xmodmap</code> (with Caps Lock remapped to Control for my Vim tendencies):</p>
@@ -106,11 +127,14 @@ add Control = Control_L
 <p>Be sure to reboot after the changes to the <code>autostart</code> script to make sure the keymap loads correctly.
 To get the keyboard backlight to work and to map it to the keyboard hotkeys, simply follow
 <a href="http://crunchbang.org/forums/viewtopic.php?id=26772">this article</a> from the Crunchbang forum.</p>
+
+<a href="#">Back to top</a>
 </article>
 
 <!-- 2013-07-18 -->
 <article id="vagrant-bridged-network-configuration-on-sles-11">
-<h2><a href="#vagrant-bridged-network-configuration-on-sles-11">§</a> Vagrant: Bridged Network Configuration on SLES 11</h2>
+<h2><a href="#vagrant-bridged-network-configuration-on-sles-11">§</a>
+    Vagrant: Bridged Network Configuration on SLES 11</h2>
 
 <p><a href="http://www.vagrantup.com/">Vagrant</a> simplifies the creation of virtual machines by providing a layer atop,
 in my case, <a href="https://www.virtualbox.org/">VirtualBox</a>. Static IP address assignment through bridged network adapters is not yet available by default in the
@@ -188,37 +212,43 @@ set the desired hostname of the machine by editing <code>MY_HOSTNAME</code> and 
 <code>Vagrantfile</code> option <code>config.vm.hostname</code> is not currently compatiable with SLES 11.</p>
 
 <p>There is a <a href="https://github.com/mitchellh/vagrant/issues/743">thread</a> about adding support for static IP address assignment into Vagrant on Github.</p>
+
+<a href="#">Back to top</a>
 </article>
 
 <!-- 2013-07-09 -->
 <article id="php-fpm-child-exited-with-code-70">
-    <h2><a href="#php-fpm-child-exited-with-code-70">§</a> PHP-FPM: Child exited with code 70</h2>
+<h2><a href="#php-fpm-child-exited-with-code-70">§</a>
+    PHP-FPM: Child exited with code 70</h2>
 
-    <p>I came across an issue today on one of the production servers at work where the <code>php-fpm.log</code> contained
-    entries similar to the following:</p>
+<p>I came across an issue today on one of the production servers at work where the <code>php-fpm.log</code> contained
+entries similar to the following:</p>
 
 <code><pre>
 [09-Jul-2013 14:17:42] WARNING: [pool www] child 18868 exited with code 70 after 211.761716 seconds from start
 </code></pre>
 
-    <p>I managed to reproduce this on PHP 5.4.13 and 5.4.14 and nginx 1.2.7 and 1.2.8. Nothing was appearing in the PHP
-        error log or syslog. There was a related entry in the nginx error log:</p>
+<p>I managed to reproduce this on PHP 5.4.13 and 5.4.14 and nginx 1.2.7 and 1.2.8. Nothing was appearing in the PHP
+error log or syslog. There was a related entry in the nginx error log:</p>
 
 <code><pre>recv() failed (104: Connection reset by peer) while reading response header from upstream</code></pre>
 
-    <p>This actually ended up being caused by an <code>ini_set('memory_limit', '16M')</code>, which when removed and
-    relying on the <code>128M</code> set by <code>php.ini</code> instead resolved the issue.</p>
+<p>This actually ended up being caused by an <code>ini_set('memory_limit', '16M')</code>, which when removed and
+relying on the <code>128M</code> set by <code>php.ini</code> instead resolved the issue.</p>
 
-    <p>By the way, I was unable to find any reference to the <q>exited with code 70</q> message on Google. After digging through the
-    PHP source code it appears to equate to the constant <code>FPM_EXIT_SOFTWARE</code> defined in
-    <a href="https://github.com/php/php-src/blob/master/sapi/fpm/fpm/fpm.h#L29"><code>fpm.h</code></a>. It's used in
-    <code>fpm_main.c</code>, <code>fpm_process_ctl.c</code> and <code>fpm_unix.c</code>. I thought I'd stick these refences on here in the hope that it may help
-    someone who's searching for the same error.</p>
+<p>By the way, I was unable to find any reference to the <q>exited with code 70</q> message on Google. After digging through the
+PHP source code it appears to equate to the constant <code>FPM_EXIT_SOFTWARE</code> defined in
+<a href="https://github.com/php/php-src/blob/master/sapi/fpm/fpm/fpm.h#L29"><code>fpm.h</code></a>. It's used in
+<code>fpm_main.c</code>, <code>fpm_process_ctl.c</code> and <code>fpm_unix.c</code>. I thought I'd stick these refences on here in the hope that it may help
+someone who's searching for the same error.</p>
+
+<a href="#">Back to top</a>
 </article>
 
 <!-- 2013-06-25 -->
 <article id="arch-linux-arm-with-unified-bin-and-lib-for-raspberry-pi">
-<h2><a href="#arch-linux-arm-with-unified-bin-and-lib-for-raspberry-pi">§</a> Arch Linux ARM with unified /bin and /lib for Raspberry Pi</h2>
+<h2><a href="#arch-linux-arm-with-unified-bin-and-lib-for-raspberry-pi">§</a>
+    Arch Linux ARM with unified /bin and /lib for Raspberry Pi</h2>
 
 <p>The latest Arch Linux disk image for Raspberry Pi (2013-06-06) contains a couple of key
 changes that may require a re-image to your SD card. I was running an image of Arch from what must have been a little
@@ -238,12 +268,15 @@ the unified <code>/bin</code> and <code>/lib</code> directories out of the box s
 <p>Secondly, it's been a while since I've been in the Arch shell and discovered <code>/etc/rc.d</code> is no more, or
 at least it isn't what it used to be. Arch have shifted to the increasingly popular <code>systemd</code> with a
 rather nice explanation over on this <a href="https://bbs.archlinux.org/viewtopic.php?pid=1149530#p1149530">forum post</a>.</p>
+
+<a href="#">Back to top</a>
 </article>
 
 
 <!-- 2013-06-02 -->
 <article id="improving-xen-performance-on-debian">
-<h2><a href="#improving-xen-performance-on-debian">§</a> Improving Xen Performance on Debian</h2>
+<h2><a href="#improving-xen-performance-on-debian">§</a>
+    Improving Xen Performance on Debian</h2>
 
 <p>There are several <a href="http://wiki.xen.org/wiki/Xen_Best_Practices">Xen Best Practices</a>
 set out on the Xen wiki, however they did not directly translate to Xen 4 on Debian Squeeze.
@@ -275,11 +308,14 @@ xm sched-credit -d Domain-0 -w 512
 
 <p>You need to execute the above on each boot so it might be an idea to create an init script,
 the Xen wiki recommends that it should be one of the last things to execute in the boot process.</p>
+
+<a href="#">Back to top</a>
 </article>
 
 <!-- 2013-05-30 -->
 <article id="expanding-an-lvm-physical-volume">
-<h2><a href="#expanding-an-lvm-physical-volume">§</a> Expanding an LVM Physical Volume</h2>
+<h2><a href="#expanding-an-lvm-physical-volume">§</a>
+    Expanding an LVM Physical Volume</h2>
 
 <p>I recently purchased a 256GB SSD to replace the 120GB drive that I originally
 built into my Debian Xen host. Having powered off the machine, connected the new drive and
@@ -288,7 +324,7 @@ will execute the drive-to-drive clone as a background process:</p>
 
 <code><pre>
 fdisk -l # identify your source (if) and destination (of) devices
-dd if=/dev/sdb of=/dev/sda bs=32M &
+dd if=/dev/sdb of=/dev/sda bs=32M &amp;
 </pre></code>
 
 <p>Note the blocksize of <q>32M</q>, this increased the data transfer rate from 40-50MB/s up
@@ -347,11 +383,14 @@ pvresize /dev/sda5
 <code>vgs</code> binary to give a nice readout of the available space within the volume
 group. Note this hasn't increased the size of any of the logical volumes within the
 volume group, only the physical volume itself.</p>
+
+<a href="#">Back to top</a>
 </article>
 
 <!-- 2013-05-18 -->
 <article id="the-5-minute-lamp-stack">
-<h2><a href="#the-5-minute-lamp-stack">§</a> The 5-minute LAMP Stack</a></h2>
+<h2><a href="#the-5-minute-lamp-stack">§</a>
+    The 5-minute LAMP Stack</a></h2>
 
 <p>With the <a href="http://www.debian.org/News/2013/20130504">release</a> of
 Debian 7.0 "Wheezy", PHP 5.4 is available though <code>apt-get</code> from the word go.
@@ -374,7 +413,7 @@ it's easier to pronounce than <abbr title="Linux, NGINX, MySQL and PHP">LNMP</ab
 <code><pre>
 apt-get install vim htop ntp nscd
 
-echo "your.fullyqualified.hostname" > /etc/hostname
+echo "your.fullyqualified.hostname" &gt; /etc/hostname
 hostname -F /etc/hostname
 
 dpkg-reconfigure tzdata
@@ -468,11 +507,14 @@ could also use <abbr title="Alternative PHP Cache">APC</abbr> or Zend Opcache.</
 
 <p>Hopefully all of the above will result in decreased server load, latency and maximise
 throughput on your server by making the most of the available resources.</p>
+
+<a href="#">Back to top</a>
 </article>
 
 <!-- 2013-01- -->
 <article id="building-a-xen-hypervisor">
-<h2><a href="#building-a-xen-hypervisor">§</a> Building a Xen Hypervisor</h2>
+<h2><a href="#building-a-xen-hypervisor">§</a>
+    Building a Xen Hypervisor</h2>
 
 <p>Wikipedia states that <q>a hypervisor or virtual machine manager (VMM)
 is a piece of software, firmware or hardware that creates and runs
@@ -508,7 +550,7 @@ and 40 in my case).</p>
 <p>Enable the 802.1q kernel module and make it permanent:</p>
 
 <code><pre>
-modprobe 8021q && echo '8021q' >> /etc/modules
+modprobe 8021q &amp;&amp; echo '8021q' &gt;&gt; /etc/modules
 </pre></code>
 
 <p>Once you've done that you'll need to install the <kbd>vlan</kbd> package:</p>
@@ -550,15 +592,15 @@ iface xenbr20 inet static
 enable IPv4 forwarding and NAT on dom0:</p>
 
 <code><pre>
-echo 1 > /proc/sys/net/ipv4/ip_forward
-echo 'net.ipv4.ip_forward=1' > /etc/sysctl.conf
+echo 1 &gt; /proc/sys/net/ipv4/ip_forward
+echo 'net.ipv4.ip_forward=1' &gt; /etc/sysctl.conf
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 </pre></code>
 
 <p>Ensuring that iptables retains these rules on boot:</p>
 <code><pre>
 apt-get install iptables-persistent
-iptables-save > /etc/iptables/rules
+iptables-save &gt; /etc/iptables/rules
 </pre></code>
 
 
@@ -580,7 +622,7 @@ xen-create-image --hostname=newvm \ # Each domU should have a different hostname
 
 <code><pre>
 #!/bin/bash
-[ -z $1 ] && { echo "Specify hostname!"; exit 1; }
+[ -z $1 ] &amp;&amp; { echo "Specify hostname!"; exit 1; }
 
 xm destroy $1
 xm delete $1
@@ -590,11 +632,13 @@ xen-delete-image --lvm vg0 $1       # You may wish to change the LVM group here
 <p>Incidently, LVM has an excellent snapshot feature which I've wrapped up into
 <a href="https://gist.github.com/skl/4679224">this gist</a>.</p>
 
+<a href="#">Back to top</a>
 </article>
 
 <!-- 2013-01-16 22:37 -->
 <article id="a-website-in-a-single-http-request">
-<h2><a href="#a-website-in-a-single-http-request">§</a> A Website in a Single HTTP Request</h2>
+<h2><a href="#a-website-in-a-single-http-request">§</a>
+    A Website in a Single HTTP Request</h2>
 
 <p>This website has no assets. There are no CSS files, no external JavaScript
 sources files, no backend scripting engine and no database storage system. It's
@@ -618,6 +662,8 @@ learning as it's happening. Designing the next-best has been on my to-do list
 for too long.</p>
 
 <p>All content on this site is free to share, just like the web should be.</p>
+
+<a href="#">Back to top</a>
 </article>
 
 <footer>Stephen Karl Lang <a href="http://creativecommons.org/licenses/by/3.0/">CC BY</a></footer>
