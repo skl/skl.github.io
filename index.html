@@ -34,9 +34,9 @@ h6 {opacity:0.35; font-size:1.75em; letter-spacing:-0.06em; line-height:0.75em; 
 p, li {opacity:0.8; font-size:1em}
 
 pre {width:100%; overflow:auto; margin:0 0 0 -5%; padding:1.2em 5%; background:#3a3933;
-    color:#eeead2; border-top:5px solid #b2a787}
+    color:#eeead2; border-top:5px solid #b2a787; letter-spacing:0.1em;}
 kbd, code {font-size:1em; font-family:'Andale Mono','Droid Sans Mono','Courier New',monospace; letter-spacing:0.1em}
-p code {font-size:0.9em; line-height:1.6em;}
+p code, p kbd {font-size:0.9em; line-height:1.6em;}
 abbr {border-bottom:1px dashed #807e71; cursor:help}
 
 #toc {letter-spacing:0.05em; opacity:0.9; padding:0; height:7.4em; overflow:auto}
@@ -57,6 +57,7 @@ abbr {border-bottom:1px dashed #807e71; cursor:help}
 
 <h6 title="Scroll over the list for more">Articles</h6>
 <nav id="toc">
+<a href="#building-your-first-android-app">Building Your First Android App</a>
 <a href="#installing-crunchbang-linux-on-a-mid-2011-macbook-air">Installing Crunchbang Linux on a Mid 2011 MacBook Air</a>
 <a href="#vagrant-bridged-network-configuration-on-sles-11">Vagrant: Bridged Network Configuration on SLES 11</a>
 <a href="#php-fpm-child-exited-with-code-70">PHP-FPM: Child exited with code 70</a>
@@ -67,6 +68,93 @@ abbr {border-bottom:1px dashed #807e71; cursor:help}
 <a href="#building-a-xen-hypervisor">Building a Xen Hypervisor</a>
 <a href="#a-website-in-a-single-http-request">A Website in a Single HTTP Request</a>
 </nav>
+
+
+<article id="building-your-first-android-app">
+<h2><a href="#building-your-first-android-app">§</a>
+    <time datetime="2013-12-23">23<sup>rd</sup> December 2013</time>
+    Building Your First Android App (without an <abbr title="Integrated Development Environment">IDE</abbr>)</h2>
+
+<p>This article is a supplement to the offical
+<a href="http://developer.android.com/training/basics/firstapp/index.html">Building Your First Android App</a>
+guide from Google's Android Developer website. I followed this guide to the letter but could not get the basic
+&ldquo;Starting Another Activity&rdquo; project to compile without adding some additional <code>import</code>
+statements and confiruration. Although there are some instructions on avoiding the use of Eclipse or Android Studio,
+there are several assumptions made which are left out from even the 'complete' code examples. I realise this may be a
+simple case of <kbd>Ctrl+Shift+O</kbd> in Eclipse but I prefer to understand my fixes rather than have them
+automatically applied for me.</p>
+
+<p>On Debian there are a few prerequisites:</p>
+
+<pre>
+sudo apt-get install ant openjdk-7-jdk
+</pre>
+
+<p>If you're on a 64-bit machine (i.e. output of <code>uname -m</code> is <kbd>x86_64</kbd>) then you'll also need to
+add the 32-bit architecture libraries:</p>
+
+<pre>
+sudo dpkg --add-architecture i386
+sudo apt-get install ia32-libs
+</pre>
+
+<p>Installing the Android <abbr title="Software Development Kit">SDK</abbr> and Platform Tools (including the Emulator)
+and deploying an app to either an <abbr title="Android Virtual Device">AVD</abbr> or to a hardware device is fairly
+straightforward. I didn't come across any issues after following the instructions linked to by the guide. I installed
+the SDK to <kbd>/usr/local/android-sdk</kbd> and added two entries to my <kbd>PATH</kbd> in <kbd>~/.bashrc</kbd>:</p>
+
+<pre>
+export PATH=/usr/local/android-sdk/tools:$PATH
+export PATH=/usr/local/android-sdk/platform-tools:$PATH
+</pre>
+
+<p>There are no instructions for installing the Support Library without an IDE, as it turns out you need to add
+the following line to the <kbd>ant.properties</kbd> file:</p>
+
+<pre>
+jar.libs.dir=libs
+</pre>
+
+<p>Then you need to symlink (or copy) the required Support Library:</p>
+
+<pre>
+ln -s /usr/local/android-sdk/extras/android/support/v4/android-support-v4.jar /path/to/project/libs/android-support-v4.jar
+</pre>
+
+<p>In the <code>DisplayMessageActivity</code> class I had to add in the following at the top of the file:</p>
+
+<pre>
+package com.example.myfirstapp;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.Build;
+import android.view.MenuItem;
+import android.widget.TextView;
+import android.content.Intent;
+import android.annotation.SuppressLint;
+import android.support.v4.app.NavUtils;
+</pre>
+
+<p>Then it was just a case of <code>ant debug</code> and deploying to the device (<kbd>-r</kbd> flag to replace
+previous version):</p>
+
+<pre>
+adb install -r bin/MyFirstApp-debug.apk
+</pre>
+
+<p>Prior to doing the above, <code>ant debug</code> was displaying several error messages, including:</p>
+
+<ul>
+    <li>Package Build does not exist</li>
+    <li>Package R does not exist</li>
+    <li>Package android.support.v4.app does not exist</li>
+    <li>Cannot find symbol SuppressLint</li>
+    <li>Cannot find symbol TextView</li>
+</ul>
+
+<a href="#">Back to top</a>
+</article>
 
 
 <article id="installing-crunchbang-linux-on-a-mid-2011-macbook-air">
@@ -95,7 +183,7 @@ Squeeze in the article). Getting the WiFi adapter to work is as easy as <code>ap
 
 <p>Finally, I added a few lines to <code>~/.config/openbox/autostart</code>:</p>
 
-<code><pre>
+<pre>
 ## 1-finger tap left-click, 2-finger tap right-click and 3-finger middle-click
 synclient TapButton1=1 TapButton2=3 TapButton3=2 &amp;
 
@@ -107,11 +195,11 @@ synclient TapButton1=1 TapButton2=3 TapButton3=2 &amp;
 
 ## Slightly increase the gamma (roughly calibrated to 1.8)
 ( sleep 1 &amp;&amp; xgamma -gamma 1.150 ) &amp;
-</pre></code>
+</pre>
 
 <p>Here's my <code>~/.Xmodmap</code> (with Caps Lock remapped to Control for my Vim tendencies):</p>
 
-<code><pre>
+<pre>
 keycode  11 = 2 at 2 at twosuperior oneeighth twosuperior
 keycode  48 = apostrophe quotedbl apostrophe quotedbl dead_circumflex dead_caron dead_circumflex
 keycode  49 = section plusminus section plusminus bar bar bar
@@ -124,7 +212,7 @@ add control = Control_L Control_R
 remove Control = Control_L
 keysym Caps_Lock = Control_L
 add Control = Control_L
-</pre></code>
+</pre>
 
 <p>Be sure to reboot after the changes to the <code>autostart</code> script to make sure the keymap loads correctly.
 To get the keyboard backlight to work and to map it to the keyboard hotkeys, simply follow
@@ -145,7 +233,7 @@ in my case, <a href="https://www.virtualbox.org/">VirtualBox</a>. Static IP addr
 need to manually configure the interface. Firstly, inform Vagrant that you wish to use custom bridged networking by
 adding the following to your <code>Vagrantfile</code>:</p>
 
-<code><pre>
+<pre>
 # Set "XXXXXX" to your desired MAC address suffix for this VM
 config.vm.network :public_network, :auto_config =&gt; false, :mac =&gt; "080027XXXXXX"
 
@@ -153,7 +241,7 @@ config.vm.network :public_network, :auto_config =&gt; false, :mac =&gt; "080027X
 config.vm.provision :shell do |s|
   s.path = "bootstrap.sh"
 end
-</pre></code>
+</pre>
 
 <p>The reason that you should also set a static MAC address is so that your network gateway ARP table remains
 correct even after a <code>vagrant destroy &amp;&amp; vagrant up</code>. By default, a new MAC address is generated
@@ -162,7 +250,7 @@ for you per instance and you would have to wait for the ARP cache to clear befor
 <p>As you can see from above you need to create a <code>bootstrap.sh</code> file in the same directory as your
 <code>Vagrantfile</code>. Populate <code>bootstrap.sh</code> with the following:</p>
 
-<code><pre>
+<pre>
 #!/bin/bash
 #
 # This file is designed to be called by `vagrant up`:
@@ -208,11 +296,11 @@ sudo hostname -F /etc/HOSTNAME
 echo "Waiting a couple of seconds before attempting to ping the gateway..."
 sleep 2
 ping -Ieth1 -c1 ${MY_ROUTER_IP}
-</pre></code>
+</pre>
 
 <p>Be sure to set <code>MY_STATIC_IP</code> and <code>MY_ROUTER_IP</code> to suit your network setup. You may also
 set the desired hostname of the machine by editing <code>MY_HOSTNAME</code> and <code>MY_FQDN</code> as the
-<code>Vagrantfile</code> option <code>config.vm.hostname</code> is not currently compatiable with SLES 11.</p>
+<code>Vagrantfile</code> option <code>config.vm.hostname</code> is not currently compatible with SLES 11.</p>
 
 <p>There is a <a href="https://github.com/mitchellh/vagrant/issues/743">thread</a> about adding support for static IP address assignment into Vagrant on Github.</p>
 
@@ -228,14 +316,14 @@ set the desired hostname of the machine by editing <code>MY_HOSTNAME</code> and 
 <p>I came across an issue today on one of the production servers at work where the <code>php-fpm.log</code> contained
 entries similar to the following:</p>
 
-<code><pre>
+<pre>
 [09-Jul-2013 14:17:42] WARNING: [pool www] child 18868 exited with code 70 after 211.761716 seconds from start
-</pre></code>
+</pre>
 
 <p>I managed to reproduce this on PHP 5.4.13 and 5.4.14 and nginx 1.2.7 and 1.2.8. Nothing was appearing in the PHP
 error log or syslog. There was a related entry in the nginx error log:</p>
 
-<code><pre>recv() failed (104: Connection reset by peer) while reading response header from upstream</pre></code>
+<pre>recv() failed (104: Connection reset by peer) while reading response header from upstream</pre>
 
 <p>This actually ended up being caused by an <code>ini_set('memory_limit', '16M')</code>, which when removed and
 relying on the <code>128M</code> set by <code>php.ini</code> instead resolved the issue.</p>
@@ -243,7 +331,7 @@ relying on the <code>128M</code> set by <code>php.ini</code> instead resolved th
 <p>By the way, I was unable to find any reference to the <q>exited with code 70</q> message on Google. After digging through the
 PHP source code it appears to equate to the constant <code>FPM_EXIT_SOFTWARE</code> defined in
 <a href="https://github.com/php/php-src/blob/master/sapi/fpm/fpm/fpm.h#L29"><code>fpm.h</code></a>. It's used in
-<code>fpm_main.c</code>, <code>fpm_process_ctl.c</code> and <code>fpm_unix.c</code>. I thought I'd stick these refences on here in the hope that it may help
+<code>fpm_main.c</code>, <code>fpm_process_ctl.c</code> and <code>fpm_unix.c</code>. I thought I'd stick these references on here in the hope that it may help
 someone who's searching for the same error.</p>
 
 <a href="#">Back to top</a>
@@ -259,10 +347,10 @@ someone who's searching for the same error.</p>
 changes that may require a re-image to your SD card. I was running an image of Arch from what must have been a little
 over a month ago when I attempted a <code>pacman -Syu</code> today. This failed with the error:</p>
 
-<code><pre>
+<pre>
 error: failed to commit transaction (conflicting files)
 filesystem: /bin exists in filesystem
-</pre></code>
+</pre>
 
 <p>This error is <a href="https://www.archlinux.org/news/binaries-move-to-usrbin-requiring-update-intervention/">documented</a>
 on the Arch wiki, however the suggested fix starting with <code>pacman -Qqo /bin /sbin /usr/sbin | pacman -Qm -</code>
@@ -288,28 +376,28 @@ set out on the Xen wiki, however they did not directly translate to Xen 4 on Deb
 The general idea is to dedicate some resources to dom0 (in this case an entire CPU core) so that
 it can cleanly deal with all the domU IO. Given a multi-core CPU you can specify which cores each domU
 should use by specifying the following line each <code>&lt;domain&gt;.cfg</code> file:</p>
-<code><pre>
+<pre>
 cpus = '2-3'
-</pre></code>
+</pre>
 
 <p>The above will set the domU to use CPU cores 3 and 4 (the <code>cpus</code> parameter is zero
 indexed). By setting a even distribution of assigned CPU cores amongst your domUs, you are
 helping to spread the load. Taking this a step further, if you assign all of your domUs a non-zero
 value for the parameter above, you can dedicate a single CPU core for dom0 by adding the following to
 <code>/etc/default/grub</code>:</p>
-<code><pre>
+<pre>
 GRUB_CMDLINE_XEN_DEFAULT="dom0_mem=512M,max:512M dom0_max_vcpus=1 dom0_vcpus_pin"
-</pre></code>
+</pre>
 
-<p>Then execute <code>update-grub</code> and reboot the host machine. Incidently, this will also
+<p>Then execute <code>update-grub</code> and reboot the host machine. Incidentally, this will also
 fix the amount of allocated RAM to dom0 at 512MB (disabling ballooning). Be aware, some guides
 recommend adding <code>nosmp</code> to the boot flags, this is a Bad Idea&trade; and will render
 multi-CPU domUs nearly unusable. You can also execute the following after the reboot to prioritise
 the dom0 CPU cycles:</p>
 
-<code><pre>
+<pre>
 xm sched-credit -d Domain-0 -w 512
-</pre></code>
+</pre>
 
 <p>You need to execute the above on each boot so it might be an idea to create an init script,
 the Xen wiki recommends that it should be one of the last things to execute in the boot process.</p>
@@ -328,18 +416,18 @@ built into my Debian Xen host. Having powered off the machine, connected the new
 booted into the Knoppix Live CD, I copied the data using <code>dd</code>. The following
 will execute the drive-to-drive clone as a background process:</p>
 
-<code><pre>
+<pre>
 fdisk -l # identify your source (if) and destination (of) devices
 dd if=/dev/sdb of=/dev/sda bs=32M &amp;
-</pre></code>
+</pre>
 
 <p>Note the blocksize of <q>32M</q>, this increased the data transfer rate from 40-50MB/s up
 to 240-250MB/s in my case. The clone took approximately ten minutes, it would have taken nearly an hour with the default blocksize. You can inspect the progress of the operation by signalling the
 Process ID which was output from the <code>dd</code> command:</p>
 
-<code><pre>
+<pre>
 kill -SIGUSR1 &lt;pid&gt;
-</pre></code>
+</pre>
 
 <p>As I have the maximum of three primary and one extended partitions
 (<code>boot</code>, <code>root</code>, <code>swap</code> and <code>lvm</code> respectively) I
@@ -350,30 +438,30 @@ rebooted back into the Knoppix Live CD after removing the old drive (otherwise y
 <p>The next step was to expand the fourth (extended) partition of the new drive to fill
 the available space:</p>
 
-<code><pre>
+<pre>
 parted /dev/sda
 u s # Change Unit to Sectors
 print # Display current partitions
-</pre></code>
+</pre>
 
 <p>At this point take note of the starting sector of the fourth partition (<code>37611518</code>
 in my case) and the final sector of the disk (<code>231252993</code>). Now delete the fourth
 partition and create the new partition with the same starting sector (this ensures the data
 within the partition remains readable) and set the new final sector:</p>
 
-<code><pre>
+<pre>
 rm 4
 mkpart extended 37611518s 500117503s
-</pre></code>
+</pre>
 
 <p>Now do the same for the LVM partition:</p>
 
-<code><pre>
+<pre>
 rm 5
 mkpart extended 37611518s 500117503s
 toggle 5 lvm
 quit
-</pre></code>
+</pre>
 
 <p>The <code>quit</code> command will take you back to the normal prompt. It is recommended
 that you reboot the machine again at this point. Now you can see the current reported size
@@ -381,9 +469,9 @@ of your LVM physical volume using the <code>pvscan</code> binary. To increase th
 of the physical volume and take advantage of the newly available space, execute the
 <code>pvresize</code> binary:</p>
 
-<code><pre>
+<pre>
 pvresize /dev/sda5
-</pre></code>
+</pre>
 
 <p>Run <code>pvscan</code> again and the new size should be displayed. I use the
 <code>vgs</code> binary to give a nice readout of the available space within the volume
@@ -417,41 +505,41 @@ it's easier to pronounce than <abbr title="Linux, NGINX, MySQL and PHP">LNMP</ab
 <p>These are now all available in the Wheezy repositories, so all we need are a few commands.</p>
 
 <p>Firstly, for a fresh build you'll want to get the basics right:</p>
-<code><pre>
+<pre>
 apt-get install vim htop ntp nscd
 
 echo "your.fullyqualified.hostname" &gt; /etc/hostname
 hostname -F /etc/hostname
 
 dpkg-reconfigure tzdata
-</pre></code>
+</pre>
 
 <p>Grab the LAMP packages:</p>
-<code><pre>
+<pre>
 apt-get install nginx php5-cli php5-fpm php5-mysqlnd php5-xcache php5-curl mysql-server mysql-client
-</pre></code>
+</pre>
 
 <p>This is always good practice for your MySQL server:</p>
-<code><pre>
+<pre>
 mysql_secure_installation
-</pre></code>
+</pre>
 
 <p>Setup SMTP, see Linode's <a href="https://library.linode.com/email/exim/send-only-mta-debian-6-squeeze">simple guide</a> for step-by-step instructions on the second command here:</p>
-<code><pre>
+<pre>
 apt-get install exim4-daemon-light mailutils
 dpkg-reconfigure exim4-config
-</pre></code>
+</pre>
 
-<p>Now let's lockdown the server a bit, you may like to use <a href="https://gist.github.com/skl/5484738">this gist</a> as a base for your firewall rules - be sure to read through them though or you'll lock yourself out:</p>
-<code><pre>
+<p>Now let's lock down the server a bit, you may like to use <a href="https://gist.github.com/skl/5484738">this gist</a> as a base for your firewall rules - be sure to read through them though or you'll lock yourself out:</p>
+<pre>
 apt-get install iptables-persistent fail2ban
 
 vim /etc/iptables/rules.v4 # Add your rules to this file
 service iptables-persistent restart
-</pre></code>
+</pre>
 
 <p>Time to wire PHP-FPM and NGINX together:</p>
-<code><pre>
+<pre>
 # Disable fix_pathinfo
 sed -i "s/^;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php5/fpm/php.ini
 
@@ -462,10 +550,10 @@ sed -i "s/^;listen.allowed_clients/listen.allowed_clients/" /etc/php5/fpm/pool.d
 service php5-fpm restart
 
 mkdir /etc/nginx/global
-</pre></code>
+</pre>
 
 <p>Create the file <code>/etc/nginx/global/fpm.conf</code> and use the following for it's contents:</p>
-<code><pre>
+<pre>
 location ~*\.php$ {
     try_files                $uri =404;
 
@@ -476,10 +564,10 @@ location ~*\.php$ {
     fastcgi_intercept_errors on;
     fastcgi_pass             127.0.0.1:9000;
 }
-</pre></code>
+</pre>
 
 <p>Nearly there, create your <code>server</code> block in <code>/etc/nginx/sites-available/your-domain.com</code>:</p>
-<code><pre>
+<pre>
 server {
     listen 80;
     server_name  your-domain.com;
@@ -491,13 +579,13 @@ server {
         try_files $uri $uri/ /index.php?$query_string;
     }
 }
-</pre></code>
+</pre>
 
 <p>Finally, symlink your configuration file and reload NGINX:</p>
-<code><pre>
+<pre>
 ln -s /etc/nginx/sites-available/your-domain.com /etc/nginx/sites-enabled/your-domain.com
 service nginx reload
-</pre></code>
+</pre>
 
 <p>That's it! As long as your DNS is pointing in the right place you should be good to go.</p>
 
@@ -557,20 +645,20 @@ and 40 in my case).</p>
 
 <p>Enable the 802.1q kernel module and make it permanent:</p>
 
-<code><pre>
+<pre>
 modprobe 8021q &amp;&amp; echo '8021q' &gt;&gt; /etc/modules
-</pre></code>
+</pre>
 
 <p>Once you've done that you'll need to install the <kbd>vlan</kbd> package:</p>
 
-<code><pre>
+<pre>
 apt-get install vlan
-</pre></code>
+</pre>
 
 <p>Setup the /etc/network/interfaces with as many of the above VLANs as you
 require for the dom0 and domUs, here's mine (shortened for display):</p>
 
-<code><pre>
+<pre>
 # The local loopback interface
 auto lo
 iface lo inet loopback
@@ -594,28 +682,28 @@ iface xenbr20 inet static
     bridge_ports eth0.20
     bridge_stp on
     bridge_maxwait 10
-</pre></code>
+</pre>
 
 <p>In order to give the VMs within the VLANs internet access you'll need to
 enable IPv4 forwarding and NAT on dom0:</p>
 
-<code><pre>
+<pre>
 echo 1 &gt; /proc/sys/net/ipv4/ip_forward
 echo 'net.ipv4.ip_forward=1' &gt; /etc/sysctl.conf
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-</pre></code>
+</pre>
 
 <p>Ensuring that iptables retains these rules on boot:</p>
-<code><pre>
+<pre>
 apt-get install iptables-persistent
 iptables-save &gt; /etc/iptables/rules
-</pre></code>
+</pre>
 
 
 <p>With all of this setup you can begin creating VMs. Here's an example using
 xen-tools to create a VM with hostname 'newvm':</p>
 
-<code><pre>
+<pre>
 xen-create-image --hostname=newvm \ # Each domU should have a different hostname
     --memory=256mb \
     --vcpus=1 \
@@ -624,20 +712,20 @@ xen-create-image --hostname=newvm \ # Each domU should have a different hostname
     --pygrub \
     --dist=squeeze \                # Setting the distribution to Debian Squeeze
     --passwd                        # Prompt for root password during creation
-</pre></code>
+</pre>
 
 <p>Here's a quick bash script that makes it easy to delete VMs:</p>
 
-<code><pre>
+<pre>
 #!/bin/bash
 [ -z $1 ] &amp;&amp; { echo "Specify hostname!"; exit 1; }
 
 xm destroy $1
 xm delete $1
 xen-delete-image --lvm vg0 $1       # You may wish to change the LVM group here
-</pre></code>
+</pre>
 
-<p>Incidently, LVM has an excellent snapshot feature which I've wrapped up into
+<p>Incidentally, LVM has an excellent snapshot feature which I've wrapped up into
 <a href="https://gist.github.com/skl/4679224">this gist</a>.</p>
 
 <a href="#">Back to top</a>
