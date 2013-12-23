@@ -1,128 +1,139 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<title>skl</title>
+    <head>
+        <meta charset="utf-8">
+        <title>skl</title>
 
-<meta name="author" content="Stephen Karl Lang">
-<meta name="viewport" content="width-device-width, initial-scale=1">
+        <meta name="author" content="Stephen Karl Lang">
+        <meta name="viewport" content="width-device-width, initial-scale=1">
 
-<style type="text/css">
-header,footer,nav,section,article,aside{display:block}
-html{font-size:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
-body{margin:0;font-size:1em;line-height:1.6em}
-::-moz-selection{background:#333;color:#fff;text-shadow:none}
-::selection{background:#333;color:#fff;text-shadow:none}
-a:focus{outline:thin dotted}
-a:hover,a:active {outline:0}
+        <style>
+            header,footer,menu,nav,section,article,aside,cite {display:block}
+            html {font-size:100%; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%}
+            body {margin:0; font-size:1em; line-height:1.6em}
+            ::-moz-selection {background:#333; color:#fff; text-shadow:none}
+            ::selection {background:#333; color:#fff; text-shadow:none}
+            a:focus {outline:thin dotted}
+            a:hover, a:active {outline:0}
 
-body{width:80%; max-width:500px; margin:2em auto 0 auto; padding:5px 0; background:#d6d3bd;
-    font-family:'Helvetica Neue','Roboto Regular','Droid Sans',Helvetica,Arial,sans-serif;
-    border-top:1px solid #b2a787}
-a:link,a:visited {opacity:0.8; color:black}
-a:hover,a:active {opacity:1.0; color:black}
+            body{width:80%; max-width:500px; margin:2em auto 0 auto; padding:5px 0; background:#d6d3bd;
+                font-family:'Helvetica Neue','Roboto Regular','Droid Sans',Helvetica,Arial,sans-serif;
+                border-top:1px solid #b2a787}
+            a:link, a:visited {opacity:0.8; color:black}
+            a:hover, a:active {opacity:1.0; color:black}
 
-header{opacity:0.4; text-transform:uppercase; letter-spacing:0.07em; padding:0 0 0 1em;}
-nav a:link,nav a:visited{text-decoration:none; font-size:0.8em; padding:10px 10px 10px 0}
-article,footer{padding:1em 0 0 0; margin:0 0 8em 0; border-top:1px solid #b2a787}
-footer{opacity:0.4; font-size:0.8em; text-transform:uppercase; text-align:right}
+            header {opacity:0.4; text-transform:uppercase; letter-spacing:0.07em; padding:0 0 0 1em}
+            menu, nav {margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline}
+            menu a:link, menu a:visited {text-decoration:none; font-size:0.8em; padding:10px 10px 10px 0}
+            nav a:link, nav a:visited {display:block; text-decoration:none; font-size:0.8em; padding:0 0 0 16px;
+                line-height:2.25em; border-top:1px solid #b2a787}
+            nav {letter-spacing:0.05em; opacity:0.9; padding:0; height:7.4em; overflow:auto}
+            nav a:hover {background-color:#b2a787; opacity:0.6}
 
-h2 {opacity:0.45; font-size:3em; letter-spacing:-0.06em; line-height:1em;}
-h2 a {text-decoration:none; position:absolute; margin:-0.5em 0 0 -0.75em; font-size:0.4em}
-h2 time {position:absolute; font-size:0.3em; font-family:Georgia, serif; letter-spacing:normal;
-    line-height:1em; opacity:0.7; margin:-1.5em 0 0 0; padding:0}
-h6 {opacity:0.35; font-size:1.75em; letter-spacing:-0.06em; line-height:0.75em; padding:0; margin:1em 0 0; cursor:default}
-p, li {opacity:0.8; font-size:1em}
+            article, footer{padding:1em 0 0 0; margin:0 0 8em 0; border-top:1px solid #b2a787}
+            footer {opacity:0.4; font-size:0.8em; text-transform:uppercase; text-align:right}
+            article footer {border-top:none; padding-top:0}
+            article aside, blockquote {opacity:0.8; font-size:0.9em; padding:0 0 0 1em; border-left:5px solid #b2a787}
+            blockquote {margin-left:3em}
+            cite {font-style:italic; font-family:Georgia, serif; line-height:1em; padding:0; margin:0}
+            abbr {border-bottom:1px dashed #807e71; cursor:help}
 
-pre {width:100%; overflow:auto; margin:0 0 0 -5%; padding:1.2em 5%; background:#3a3933;
-    color:#eeead2; border-top:5px solid #b2a787; letter-spacing:0.1em;}
-kbd, code {font-size:1em; font-family:'Andale Mono','Droid Sans Mono','Courier New',monospace; letter-spacing:0.1em}
-p code, p kbd {font-size:0.9em; line-height:1.6em;}
-abbr {border-bottom:1px dashed #807e71; cursor:help}
+            h2 {opacity:0.45; font-size:3em; letter-spacing:-0.06em; line-height:1em}
+            h2 a {text-decoration:none; position:absolute; margin:-0.5em 0 0 -0.75em; font-size:0.4em}
+            h2 time {position:absolute; font-size:0.3em; font-family:Georgia, serif; letter-spacing:normal;
+                line-height:1em; opacity:0.7; margin:-1.5em 0 0 0; padding:0}
+            h6 {opacity:0.35; font-size:1.75em; letter-spacing:-0.06em; line-height:0.75em; padding:0; margin:1em 0 0;
+                cursor:default}
 
-#toc {letter-spacing:0.05em; opacity:0.9; padding:0; height:7.4em; overflow:auto}
-#toc a {display:block; padding:0 0 0 16px; line-height:2.25em; border-top:1px solid #b2a787}
-#toc a:hover {background-color:#b2a787; opacity:0.6}
-</style>
-</head>
+            p, li {opacity:0.8; font-size:1em}
+            pre {width:100%; overflow:auto; margin:0 0 0 -5%; padding:1.2em 5%; background:#3a3933; color:#eeead2;
+                border-top:5px solid #b2a787; letter-spacing:0.1em}
 
-<body>
-<header><nav>
-<a href="http://delicious.com/skl_">delicious</a>
-<a href="http://flickr.com/photos/stephenlang">flickr</a>
-<a href="http://github.com/skl">github</a>
-<a href="http://instagram.com/skl85/">instagram</a>
-<a href="http://www.linkedin.com/in/stephenkarllang">linkedin</a>
-<a href="https://twitter.com/skl_">twitter</a>
-</nav></header>
+            kbd, code {font-size:1em; font-family:'Andale Mono','Droid Sans Mono','Courier New',monospace; letter-spacing:0.1em}
+            p code, p kbd {font-size:0.9em; line-height:1.6em}
+        </style>
+    </head>
 
-<h6 title="Scroll over the list for more">Articles</h6>
-<nav id="toc">
-<a href="#building-your-first-android-app">Building Your First Android App</a>
-<a href="#installing-crunchbang-linux-on-a-mid-2011-macbook-air">Installing Crunchbang Linux on a Mid 2011 MacBook Air</a>
-<a href="#vagrant-bridged-network-configuration-on-sles-11">Vagrant: Bridged Network Configuration on SLES 11</a>
-<a href="#php-fpm-child-exited-with-code-70">PHP-FPM: Child exited with code 70</a>
-<a href="#arch-linux-arm-with-unified-bin-and-lib-for-raspberry-pi">Arch Linux ARM with unified /bin and /lib for Raspberry Pi</a>
-<a href="#improving-xen-performance-on-debian">Improving Xen Performance on Debian</a>
-<a href="#expanding-an-lvm-physical-volume">Expanding an LVM Physical Volume</a>
-<a href="#the-5-minute-lamp-stack">The 5-minute LAMP Stack</a>
-<a href="#building-a-xen-hypervisor">Building a Xen Hypervisor</a>
-<a href="#a-website-in-a-single-http-request">A Website in a Single HTTP Request</a>
-</nav>
+    <body>
+        <header>
+        <menu>
+            <a href="http://delicious.com/skl_">delicious</a>
+            <a href="http://flickr.com/photos/stephenlang">flickr</a>
+            <a href="http://github.com/skl">github</a>
+            <a href="http://instagram.com/skl85/">instagram</a>
+            <a href="http://www.linkedin.com/in/stephenkarllang">linkedin</a>
+            <a href="https://twitter.com/skl_">twitter</a>
+        </menu>
+        </header>
+
+        <h6 title="Scroll over the list for more">Articles</h6>
+        <nav>
+        <a href="#building-your-first-android-app">Building Your First Android App</a>
+        <a href="#installing-crunchbang-linux-on-a-mid-2011-macbook-air">Installing Crunchbang Linux on a Mid 2011 MacBook Air</a>
+        <a href="#vagrant-bridged-network-configuration-on-sles-11">Vagrant: Bridged Network Configuration on SLES 11</a>
+        <a href="#php-fpm-child-exited-with-code-70">PHP-FPM: Child exited with code 70</a>
+        <a href="#arch-linux-arm-with-unified-bin-and-lib-for-raspberry-pi">Arch Linux ARM with unified /bin and /lib for Raspberry Pi</a>
+        <a href="#improving-xen-performance-on-debian">Improving Xen Performance on Debian</a>
+        <a href="#expanding-an-lvm-physical-volume">Expanding an LVM Physical Volume</a>
+        <a href="#the-5-minute-lamp-stack">The 5-minute LAMP Stack</a>
+        <a href="#building-a-xen-hypervisor">Building a Xen Hypervisor</a>
+        <a href="#a-website-in-a-single-http-request">A Website in a Single HTTP Request</a>
+        </nav>
 
 
-<article id="building-your-first-android-app">
-<h2><a href="#building-your-first-android-app">§</a>
-    <time datetime="2013-12-23">23<sup>rd</sup> December 2013</time>
-    Building Your First Android App (without an <abbr title="Integrated Development Environment">IDE</abbr>)</h2>
+        <article id="building-your-first-android-app">
+        <h2><a href="#building-your-first-android-app">§</a>
+            <time datetime="2013-12-23">23<sup>rd</sup> December 2013</time>
+            Building Your First Android App (without an <abbr title="Integrated Development Environment">IDE</abbr>)</h2>
 
-<p>This article is a supplement to the offical
-<a href="http://developer.android.com/training/basics/firstapp/index.html">Building Your First Android App</a>
-guide from Google's Android Developer website. I followed this guide to the letter but could not get the basic
-&ldquo;Starting Another Activity&rdquo; project to compile without adding some additional <code>import</code>
-statements and configuration. Although there are some instructions on avoiding the use of Eclipse or Android Studio,
-there are several assumptions made which are left out from even the 'complete' code examples. I realise this may be a
-simple case of <kbd>Ctrl+Shift+O</kbd> in Eclipse but I prefer to understand my fixes rather than have them
-automatically applied for me.</p>
+        <p>This article is a supplement to the official
+        <a href="http://developer.android.com/training/basics/firstapp/index.html">Building Your First Android App</a>
+        guide from Google's Android Developer website. I followed this guide to the letter but could not get the basic
+        &ldquo;Starting Another Activity&rdquo; project to compile without adding some additional <code>import</code>
+        statements and configuration. Although there are some instructions on avoiding the use of Eclipse or Android
+        Studio, there are several assumptions made which are left out from even the 'complete' code examples. I realise
+        this may be a simple case of <kbd>Ctrl+Shift+O</kbd> in Eclipse but I prefer to understand my fixes rather than
+        have them automatically applied for me.</p>
 
-<p>On Debian there are a few prerequisites:</p>
+        <p>On Debian there are a few prerequisites:</p>
 
 <pre>
 sudo apt-get install ant openjdk-7-jdk
 </pre>
 
-<p>If you're on a 64-bit machine (i.e. output of <code>uname -m</code> is <kbd>x86_64</kbd>) then you'll also need to
-add the 32-bit architecture libraries:</p>
+        <p>If you're on a 64-bit machine (i.e. output of <code>uname -m</code> is <kbd>x86_64</kbd>) then you'll also
+        need to add the 32-bit architecture libraries:</p>
 
 <pre>
 sudo dpkg --add-architecture i386
 sudo apt-get install ia32-libs
 </pre>
 
-<p>Installing the Android <abbr title="Software Development Kit">SDK</abbr> and Platform Tools (including the Emulator)
-and deploying an app to either an <abbr title="Android Virtual Device">AVD</abbr> or to a hardware device is fairly
-straightforward. I didn't come across any issues after following the instructions linked to by the guide. I installed
-the SDK to <kbd>/usr/local/android-sdk</kbd> and added two entries to my <kbd>PATH</kbd> in <kbd>~/.bashrc</kbd>:</p>
+        <p>Installing the Android <abbr title="Software Development Kit">SDK</abbr> and Platform Tools (including the
+        Emulator) and deploying an app to either an <abbr title="Android Virtual Device">AVD</abbr> or to a hardware
+        device is fairly straightforward. I didn't come across any issues after following the instructions linked to by
+        the guide. I installed the SDK to <kbd>/usr/local/android-sdk</kbd> and added two entries to my <kbd>PATH</kbd>
+        in <kbd>~/.bashrc</kbd>:</p>
 
 <pre>
 export PATH=/usr/local/android-sdk/tools:$PATH
 export PATH=/usr/local/android-sdk/platform-tools:$PATH
 </pre>
 
-<p>There are no instructions for installing the Support Library without an IDE, as it turns out you need to add
-the following line to the <kbd>ant.properties</kbd> file:</p>
+        <p>There are no instructions for installing the Support Library without an IDE, as it turns out you need to add
+        the following line to the <kbd>ant.properties</kbd> file:</p>
 
 <pre>
 jar.libs.dir=libs
 </pre>
 
-<p>Then you need to symlink (or copy) the required Support Library:</p>
+        <p>Then you need to symlink (or copy) the required Support Library:</p>
 
 <pre>
 ln -s /usr/local/android-sdk/extras/android/support/v4/android-support-v4.jar /path/to/project/libs/android-support-v4.jar
 </pre>
 
-<p>In the <code>DisplayMessageActivity</code> class I had to add in the following at the top of the file:</p>
+        <p>In the <code>DisplayMessageActivity</code> class I had to add in the following at the top of the file:</p>
 
 <pre>
 package com.example.myfirstapp;
@@ -137,55 +148,61 @@ import android.annotation.SuppressLint;
 import android.support.v4.app.NavUtils;
 </pre>
 
-<p>Then it was just a case of <code>ant debug</code> and deploying to the device (<kbd>-r</kbd> flag to replace
-previous version):</p>
+        <p>Then it was just a case of <code>ant debug</code> and deploying to the device (<kbd>-r</kbd> flag to replace
+        previous version):</p>
 
 <pre>
 adb install -r bin/MyFirstApp-debug.apk
 </pre>
 
-<p>Prior to doing the above, <code>ant debug</code> was displaying several error messages, including:</p>
+        <p>Prior to doing the above, <code>ant debug</code> was displaying several error messages, including:</p>
 
-<ul>
-    <li>Package Build does not exist</li>
-    <li>Package R does not exist</li>
-    <li>Package android.support.v4.app does not exist</li>
-    <li>Cannot find symbol SuppressLint</li>
-    <li>Cannot find symbol TextView</li>
-</ul>
+        <ul>
+            <li>Package Build does not exist</li>
+            <li>Package R does not exist</li>
+            <li>Package android.support.v4.app does not exist</li>
+            <li>Cannot find symbol SuppressLint</li>
+            <li>Cannot find symbol TextView</li>
+        </ul>
 
-<p>I've created the Git repository <a href="https://github.com/skl/android-training">skl/android-training</a> to show
-the project in it's entirety.</p>
+        <p>I've created the Git repository <a href="https://github.com/skl/android-training">skl/android-training</a>
+        to show the project in it's entirety.</p>
 
-<a href="#">Back to top</a>
-</article>
+        <footer>
+        <a href="#">Back to top</a>
+        </footer>
+        </article>
 
 
-<article id="installing-crunchbang-linux-on-a-mid-2011-macbook-air">
-<h2><a href="#installing-crunchbang-linux-on-a-mid-2011-macbook-air">§</a>
-    <time datetime="2013-12-22">22<sup>nd</sup> December 2013</time>
-    Installing Crunchbang Linux on a Mid 2011 MacBook Air</h2>
+        <article id="installing-crunchbang-linux-on-a-mid-2011-macbook-air">
+        <h2><a href="#installing-crunchbang-linux-on-a-mid-2011-macbook-air">§</a>
+            <time datetime="2013-12-22">22<sup>nd</sup> December 2013</time>
+            Installing Crunchbang Linux on a Mid 2011 MacBook Air</h2>
 
-<p>After attending a lecture by Richard Stallman at the University of Lincoln, I felt somewhat compelled to "liberate"
-my MacBook Air by dual-booting a flavour of the GNU/Linux operating system. I read various articles proposing different
-approaches, with Ubuntu and rEFIt being seemingly the easiest/popular choice. The Unity interface is not my
-preference however, so I decided to look at other distributions with lightweight window managers that were known
-to work on the MacBook Air. An excellent <a href="http://eriktrips.com/2013/03/31/dual-booting-crunchbang-linux-and-os-x-lion-on-a-macbook-air-41/">set of notes</a>
-popped up in one search suggesting Crunchbang Linux, which turns out to be based on Debian and Openbox - perfect!</p>
+        <p>After attending a lecture by Richard Stallman at the University of Lincoln, I felt somewhat compelled to
+        "liberate" my MacBook Air by dual-booting a flavour of the GNU/Linux operating system. I read various articles
+        proposing different approaches, with Ubuntu and rEFIt being seemingly the easiest/popular choice. The Unity
+        interface is not my preference however, so I decided to look at other distributions with lightweight window
+        managers that were known to work on the MacBook Air. An excellent
+        <a href="http://eriktrips.com/2013/03/31/dual-booting-crunchbang-linux-and-os-x-lion-on-a-macbook-air-41/">set of notes</a>
+        popped up in one search suggesting Crunchbang Linux, which turns out to be based on Debian and Openbox &ndash;
+        perfect!</p>
 
-<p>The article linked above by Erik Schneider was straight forward to follow, my experience only differed in a couple
-of places. Firstly I created a 40GB partition, not 8GB, as this was to become my new primary development environment.</p>
+        <p>The article linked above by Erik Schneider was straight forward to follow, my experience only differed in a
+        couple of places. Firstly I created a 40GB partition, not 8GB, as this was to become my new primary development
+        environment.</p>
 
-<p>Secondly, after the installation of the Crunchbang OS, the live version of Crunchbang (which booted from a USB image)
-was entirely useless. Although it did manage to boot and reach the desktop, every menu option I tried (including
-launching the terminal) failed with various error messages. At this point I instead burned a Knoppix DVD (which
-includes the 64-bit OS as opposed to the 32-bit only CD) and booted it with the flag <code>knoppix64</code> which you
-enter when the <code>boot: _</code> prompt appears. Using this approach I managed to continue with the <code>chroot</code>
-portion of the notes and install the required packages with <code>apt-get</code>. The grub package versions did not
-require any customisation as Crunchbang is now based on Debian Wheezy (whereas it was based on the ealier Debian
-Squeeze in the article). Getting the WiFi adapter to work is as easy as <code>apt-get install firmware-brcm80211</code>.</p>
+        <p>Secondly, after the installation of the Crunchbang OS, the live version of Crunchbang (which booted from a
+        USB image) was entirely useless. Although it did manage to boot and reach the desktop, every menu option I
+        tried (including launching the terminal) failed with various error messages. At this point I instead burned a
+        Knoppix DVD (which includes the 64-bit OS as opposed to the 32-bit only CD) and booted it with the flag
+        <code>knoppix64</code> which you enter when the <code>boot: _</code> prompt appears. Using this approach I
+        managed to continue with the <code>chroot</code> portion of the notes and install the required packages with
+        <code>apt-get</code>. The grub package versions did not require any customisation as Crunchbang is now based on
+        Debian Wheezy (whereas it was based on the earlier Debian Squeeze in the article). Getting the WiFi adapter to
+        work is as easy as <code>apt-get install firmware-brcm80211</code>.</p>
 
-<p>Finally, I added a few lines to <code>~/.config/openbox/autostart</code>:</p>
+        <p>Finally, I added a few lines to <code>~/.config/openbox/autostart</code>:</p>
 
 <pre>
 ## 1-finger tap left-click, 2-finger tap right-click and 3-finger middle-click
@@ -201,7 +218,7 @@ synclient TapButton1=1 TapButton2=3 TapButton3=2 &amp;
 ( sleep 1 &amp;&amp; xgamma -gamma 1.150 ) &amp;
 </pre>
 
-<p>Here's my <code>~/.Xmodmap</code> (with Caps Lock remapped to Control for my Vim tendencies):</p>
+        <p>Here's my <code>~/.Xmodmap</code> (with Caps Lock remapped to Control for my Vim tendencies):</p>
 
 <pre>
 keycode  11 = 2 at 2 at twosuperior oneeighth twosuperior
@@ -218,24 +235,27 @@ keysym Caps_Lock = Control_L
 add Control = Control_L
 </pre>
 
-<p>Be sure to reboot after the changes to the <code>autostart</code> script to make sure the keymap loads correctly.
-To get the keyboard backlight to work and to map it to the keyboard hotkeys, simply follow
-<a href="http://crunchbang.org/forums/viewtopic.php?id=26772">this article</a> from the Crunchbang forum.</p>
+        <p>Be sure to reboot after the changes to the <code>autostart</code> script to make sure the keymap loads
+        correctly. To get the keyboard backlight to work and to map it to the keyboard hotkeys, simply follow
+        <a href="http://crunchbang.org/forums/viewtopic.php?id=26772">this article</a> from the Crunchbang forum.</p>
 
-<a href="#">Back to top</a>
-</article>
+        <footer>
+        <a href="#">Back to top</a>
+        </footer>
+        </article>
 
 
-<article id="vagrant-bridged-network-configuration-on-sles-11">
-<h2><a href="#vagrant-bridged-network-configuration-on-sles-11">§</a>
-    <time datetime="2013-07-18">18<sup>th</sup> July 2013</time>
-    Vagrant: Bridged Network Configuration on SLES 11</h2>
+        <article id="vagrant-bridged-network-configuration-on-sles-11">
+        <h2><a href="#vagrant-bridged-network-configuration-on-sles-11">§</a>
+            <time datetime="2013-07-18">18<sup>th</sup> July 2013</time>
+            Vagrant: Bridged Network Configuration on SLES 11</h2>
 
-<p><a href="http://www.vagrantup.com/">Vagrant</a> simplifies the creation of virtual machines by providing a layer atop,
-in my case, <a href="https://www.virtualbox.org/">VirtualBox</a>. Static IP address assignment through bridged network adapters is not yet available by default in the
-<code>Vagrantfile</code> configuration (this article is based on Vagrant 1.2.2). To achieve this on a SLES 11 VM, you
-need to manually configure the interface. Firstly, inform Vagrant that you wish to use custom bridged networking by
-adding the following to your <code>Vagrantfile</code>:</p>
+        <p><a href="http://www.vagrantup.com/">Vagrant</a> simplifies the creation of virtual machines by providing a
+        layer atop, in my case, <a href="https://www.virtualbox.org/">VirtualBox</a>. Static IP address assignment
+        through bridged network adapters is not yet available by default in the <code>Vagrantfile</code> configuration
+        (this article is based on Vagrant 1.2.2). To achieve this on a SLES 11 VM, you need to manually configure the
+        interface. Firstly, inform Vagrant that you wish to use custom bridged networking by adding the following to
+        your <code>Vagrantfile</code>:</p>
 
 <pre>
 # Set "XXXXXX" to your desired MAC address suffix for this VM
@@ -247,12 +267,13 @@ config.vm.provision :shell do |s|
 end
 </pre>
 
-<p>The reason that you should also set a static MAC address is so that your network gateway ARP table remains
-correct even after a <code>vagrant destroy &amp;&amp; vagrant up</code>. By default, a new MAC address is generated
-for you per instance and you would have to wait for the ARP cache to clear before a new route would be established.</p>
+        <p>The reason that you should also set a static MAC address is so that your network gateway ARP table remains
+        correct even after a <code>vagrant destroy &amp;&amp; vagrant up</code>. By default, a new MAC address is
+        generated for you per instance and you would have to wait for the ARP cache to clear before a new route would
+        be established.</p>
 
-<p>As you can see from above you need to create a <code>bootstrap.sh</code> file in the same directory as your
-<code>Vagrantfile</code>. Populate <code>bootstrap.sh</code> with the following:</p>
+        <p>As you can see from above you need to create a <code>bootstrap.sh</code> file in the same directory as your
+        <code>Vagrantfile</code>. Populate <code>bootstrap.sh</code> with the following:</p>
 
 <pre>
 #!/bin/bash
@@ -302,145 +323,157 @@ sleep 2
 ping -Ieth1 -c1 ${MY_ROUTER_IP}
 </pre>
 
-<p>Be sure to set <code>MY_STATIC_IP</code> and <code>MY_ROUTER_IP</code> to suit your network setup. You may also
-set the desired hostname of the machine by editing <code>MY_HOSTNAME</code> and <code>MY_FQDN</code> as the
-<code>Vagrantfile</code> option <code>config.vm.hostname</code> is not currently compatible with SLES 11.</p>
+        <p>Be sure to set <code>MY_STATIC_IP</code> and <code>MY_ROUTER_IP</code> to suit your network setup. You may
+        also set the desired hostname of the machine by editing <code>MY_HOSTNAME</code> and <code>MY_FQDN</code> as the
+        <code>Vagrantfile</code> option <code>config.vm.hostname</code> is not currently compatible with SLES 11.</p>
 
-<p>There is a <a href="https://github.com/mitchellh/vagrant/issues/743">thread</a> about adding support for static IP address assignment into Vagrant on Github.</p>
+        <p>There is a <a href="https://github.com/mitchellh/vagrant/issues/743">thread</a> about adding support for
+        static IP address assignment into Vagrant on Github.</p>
 
-<a href="#">Back to top</a>
-</article>
+        <footer>
+        <a href="#">Back to top</a>
+        </footer>
+        </article>
 
 
-<article id="php-fpm-child-exited-with-code-70">
-<h2><a href="#php-fpm-child-exited-with-code-70">§</a>
-    <time datetime="2013-07-09">9<sup>th</sup> July 2013</time>
-    PHP-FPM: Child exited with code 70</h2>
+        <article id="php-fpm-child-exited-with-code-70">
+        <h2><a href="#php-fpm-child-exited-with-code-70">§</a>
+            <time datetime="2013-07-09">9<sup>th</sup> July 2013</time>
+            PHP-FPM: Child exited with code 70</h2>
 
-<p>I came across an issue today on one of the production servers at work where the <code>php-fpm.log</code> contained
-entries similar to the following:</p>
+        <p>I came across an issue today on one of the production servers at work where the <code>php-fpm.log</code>
+        contained entries similar to the following:</p>
 
 <pre>
 [09-Jul-2013 14:17:42] WARNING: [pool www] child 18868 exited with code 70 after 211.761716 seconds from start
 </pre>
 
-<p>I managed to reproduce this on PHP 5.4.13 and 5.4.14 and nginx 1.2.7 and 1.2.8. Nothing was appearing in the PHP
-error log or syslog. There was a related entry in the nginx error log:</p>
+        <p>I managed to reproduce this on PHP 5.4.13 and 5.4.14 and nginx 1.2.7 and 1.2.8. Nothing was appearing in the
+        PHP error log or syslog. There was a related entry in the nginx error log:</p>
 
 <pre>recv() failed (104: Connection reset by peer) while reading response header from upstream</pre>
 
-<p>This actually ended up being caused by an <code>ini_set('memory_limit', '16M')</code>, which when removed and
-relying on the <code>128M</code> set by <code>php.ini</code> instead resolved the issue.</p>
+        <p>This actually ended up being caused by an <code>ini_set('memory_limit', '16M')</code>, which when removed and
+        relying on the <code>128M</code> set by <code>php.ini</code> instead resolved the issue.</p>
 
-<p>By the way, I was unable to find any reference to the <q>exited with code 70</q> message on Google. After digging through the
-PHP source code it appears to equate to the constant <code>FPM_EXIT_SOFTWARE</code> defined in
-<a href="https://github.com/php/php-src/blob/master/sapi/fpm/fpm/fpm.h#L29"><code>fpm.h</code></a>. It's used in
-<code>fpm_main.c</code>, <code>fpm_process_ctl.c</code> and <code>fpm_unix.c</code>. I thought I'd stick these references on here in the hope that it may help
-someone who's searching for the same error.</p>
+        <p>By the way, I was unable to find any reference to the <q>exited with code 70</q> message on Google. After
+        digging through the PHP source code it appears to equate to the constant <code>FPM_EXIT_SOFTWARE</code> defined
+        in <a href="https://github.com/php/php-src/blob/master/sapi/fpm/fpm/fpm.h#L29"><code>fpm.h</code></a>. It's used
+        in <code>fpm_main.c</code>, <code>fpm_process_ctl.c</code> and <code>fpm_unix.c</code>. I thought I'd stick
+        these references on here in the hope that it may help someone who's searching for the same error.</p>
 
-<a href="#">Back to top</a>
-</article>
+        <footer>
+        <a href="#">Back to top</a>
+        </footer>
+        </article>
 
 
-<article id="arch-linux-arm-with-unified-bin-and-lib-for-raspberry-pi">
-<h2><a href="#arch-linux-arm-with-unified-bin-and-lib-for-raspberry-pi">§</a>
-    <time datetime="2013-06-25">25<sup>th</sup> June 2013</time>
-    Arch Linux ARM with unified /bin and /lib for Raspberry Pi</h2>
+        <article id="arch-linux-arm-with-unified-bin-and-lib-for-raspberry-pi">
+        <h2><a href="#arch-linux-arm-with-unified-bin-and-lib-for-raspberry-pi">§</a>
+            <time datetime="2013-06-25">25<sup>th</sup> June 2013</time>
+            Arch Linux ARM with unified /bin and /lib for Raspberry Pi</h2>
 
-<p>The latest Arch Linux disk image for Raspberry Pi (2013-06-06) contains a couple of key
-changes that may require a re-image to your SD card. I was running an image of Arch from what must have been a little
-over a month ago when I attempted a <code>pacman -Syu</code> today. This failed with the error:</p>
+        <p>The latest Arch Linux disk image for Raspberry Pi (2013-06-06) contains a couple of key
+        changes that may require a re-image to your SD card. I was running an image of Arch from what must have been a
+        little over a month ago when I attempted a <code>pacman -Syu</code> today. This failed with the error:</p>
 
 <pre>
 error: failed to commit transaction (conflicting files)
 filesystem: /bin exists in filesystem
 </pre>
 
-<p>This error is <a href="https://www.archlinux.org/news/binaries-move-to-usrbin-requiring-update-intervention/">documented</a>
-on the Arch wiki, however the suggested fix starting with <code>pacman -Qqo /bin /sbin /usr/sbin | pacman -Qm -</code>
-failed for me with an <q>out of memory</q> error. I try to execute the command with only <code>/bin</code> but it
-was taking so long I ended up <code>dd</code>'ing the SD card with the 2013-06-06 image. The new image comes with
-the unified <code>/bin</code> and <code>/lib</code> directories out of the box so that this is no longer an issue.</p>
+        <p>This error is <a href="https://www.archlinux.org/news/binaries-move-to-usrbin-requiring-update-intervention/">documented</a>
+        on the Arch wiki, however the suggested fix starting with <code>pacman -Qqo /bin /sbin /usr/sbin | pacman -Qm -</code>
+        failed for me with an <q>out of memory</q> error. I try to execute the command with only <code>/bin</code> but
+        it was taking so long I ended up <code>dd</code>'ing the SD card with the 2013-06-06 image. The new image comes
+        with the unified <code>/bin</code> and <code>/lib</code> directories out of the box so that this is no longer an
+        issue.</p>
 
-<p>Secondly, it's been a while since I've been in the Arch shell and discovered <code>/etc/rc.d</code> is no more, or
-at least it isn't what it used to be. Arch have shifted to the increasingly popular <code>systemd</code> with a
-rather nice explanation over on this <a href="https://bbs.archlinux.org/viewtopic.php?pid=1149530#p1149530">forum post</a>.</p>
+        <p>Secondly, it's been a while since I've been in the Arch shell and discovered <code>/etc/rc.d</code> is no
+        more, or at least it isn't what it used to be. Arch have shifted to the increasingly popular
+        <code>systemd</code> with a rather nice explanation over on this
+        <a href="https://bbs.archlinux.org/viewtopic.php?pid=1149530#p1149530">forum post</a>.</p>
 
-<a href="#">Back to top</a>
-</article>
+        <footer>
+        <a href="#">Back to top</a>
+        </footer>
+        </article>
 
 
-<article id="improving-xen-performance-on-debian">
-<h2><a href="#improving-xen-performance-on-debian">§</a>
-    <time datetime="2013-06-02">2<sup>nd</sup> June 2013</time>
-    Improving Xen Performance on Debian</h2>
+        <article id="improving-xen-performance-on-debian">
+        <h2><a href="#improving-xen-performance-on-debian">§</a>
+            <time datetime="2013-06-02">2<sup>nd</sup> June 2013</time>
+            Improving Xen Performance on Debian</h2>
 
-<p>There are several <a href="http://wiki.xen.org/wiki/Xen_Best_Practices">Xen Best Practices</a>
-set out on the Xen wiki, however they did not directly translate to Xen 4 on Debian Squeeze.
-The general idea is to dedicate some resources to dom0 (in this case an entire CPU core) so that
-it can cleanly deal with all the domU IO. Given a multi-core CPU you can specify which cores each domU
-should use by specifying the following line each <code>&lt;domain&gt;.cfg</code> file:</p>
+        <p>There are several <a href="http://wiki.xen.org/wiki/Xen_Best_Practices">Xen Best Practices</a>
+        set out on the Xen wiki, however they did not directly translate to Xen 4 on Debian Squeeze.
+        The general idea is to dedicate some resources to dom0 (in this case an entire CPU core) so that
+        it can cleanly deal with all the domU IO. Given a multi-core CPU you can specify which cores each domU
+        should use by specifying the following line each <code>&lt;domain&gt;.cfg</code> file:</p>
 <pre>
 cpus = '2-3'
 </pre>
 
-<p>The above will set the domU to use CPU cores 3 and 4 (the <code>cpus</code> parameter is zero
-indexed). By setting a even distribution of assigned CPU cores amongst your domUs, you are
-helping to spread the load. Taking this a step further, if you assign all of your domUs a non-zero
-value for the parameter above, you can dedicate a single CPU core for dom0 by adding the following to
-<code>/etc/default/grub</code>:</p>
+        <p>The above will set the domU to use CPU cores 3 and 4 (the <code>cpus</code> parameter is zero
+        indexed). By setting a even distribution of assigned CPU cores amongst your domUs, you are
+        helping to spread the load. Taking this a step further, if you assign all of your domUs a non-zero
+        value for the parameter above, you can dedicate a single CPU core for dom0 by adding the following to
+        <code>/etc/default/grub</code>:</p>
 <pre>
 GRUB_CMDLINE_XEN_DEFAULT="dom0_mem=512M,max:512M dom0_max_vcpus=1 dom0_vcpus_pin"
 </pre>
 
-<p>Then execute <code>update-grub</code> and reboot the host machine. Incidentally, this will also
-fix the amount of allocated RAM to dom0 at 512MB (disabling ballooning). Be aware, some guides
-recommend adding <code>nosmp</code> to the boot flags, this is a Bad Idea&trade; and will render
-multi-CPU domUs nearly unusable. You can also execute the following after the reboot to prioritise
-the dom0 CPU cycles:</p>
+        <p>Then execute <code>update-grub</code> and reboot the host machine. Incidentally, this will also
+        fix the amount of allocated RAM to dom0 at 512MB (disabling ballooning). Be aware, some guides
+        recommend adding <code>nosmp</code> to the boot flags, this is a Bad Idea&trade; and will render
+        multi-CPU domUs nearly unusable. You can also execute the following after the reboot to prioritise
+        the dom0 CPU cycles:</p>
 
 <pre>
 xm sched-credit -d Domain-0 -w 512
 </pre>
 
-<p>You need to execute the above on each boot so it might be an idea to create an init script,
-the Xen wiki recommends that it should be one of the last things to execute in the boot process.</p>
+        <p>You need to execute the above on each boot so it might be an idea to create an init script,
+        the Xen wiki recommends that it should be one of the last things to execute in the boot process.</p>
 
-<a href="#">Back to top</a>
-</article>
+        <footer>
+        <a href="#">Back to top</a>
+        </footer>
+        </article>
 
 
-<article id="expanding-an-lvm-physical-volume">
-<h2><a href="#expanding-an-lvm-physical-volume">§</a>
-    <time datetime="2013-05-30">30<sup>th</sup> May 2013</time>
-    Expanding an LVM Physical Volume</h2>
+        <article id="expanding-an-lvm-physical-volume">
+        <h2><a href="#expanding-an-lvm-physical-volume">§</a>
+            <time datetime="2013-05-30">30<sup>th</sup> May 2013</time>
+            Expanding an LVM Physical Volume</h2>
 
-<p>I recently purchased a 256GB SSD to replace the 120GB drive that I originally
-built into my Debian Xen host. Having powered off the machine, connected the new drive and
-booted into the Knoppix Live CD, I copied the data using <code>dd</code>. The following
-will execute the drive-to-drive clone as a background process:</p>
+        <p>I recently purchased a 256GB SSD to replace the 120GB drive that I originally
+        built into my Debian Xen host. Having powered off the machine, connected the new drive and
+        booted into the Knoppix Live CD, I copied the data using <code>dd</code>. The following
+        will execute the drive-to-drive clone as a background process:</p>
 
 <pre>
 fdisk -l # identify your source (if) and destination (of) devices
 dd if=/dev/sdb of=/dev/sda bs=32M &amp;
 </pre>
 
-<p>Note the blocksize of <q>32M</q>, this increased the data transfer rate from 40-50MB/s up
-to 240-250MB/s in my case. The clone took approximately ten minutes, it would have taken nearly an hour with the default blocksize. You can inspect the progress of the operation by signalling the
-Process ID which was output from the <code>dd</code> command:</p>
+        <p>Note the blocksize of <q>32M</q>, this increased the data transfer rate from 40-50MB/s up
+        to 240-250MB/s in my case. The clone took approximately ten minutes, it would have taken nearly an hour with
+        the default blocksize. You can inspect the progress of the operation by signalling the
+        Process ID which was output from the <code>dd</code> command:</p>
 
 <pre>
 kill -SIGUSR1 &lt;pid&gt;
 </pre>
 
-<p>As I have the maximum of three primary and one extended partitions
-(<code>boot</code>, <code>root</code>, <code>swap</code> and <code>lvm</code> respectively) I
-opted to grow the extended partition and the LVM physical volume that resides within it. I first
-rebooted back into the Knoppix Live CD after removing the old drive (otherwise you may see
-<q>Found duplicate PV</q> error messages).</p>
+        <p>As I have the maximum of three primary and one extended partitions
+        (<code>boot</code>, <code>root</code>, <code>swap</code> and <code>lvm</code> respectively) I
+        opted to grow the extended partition and the LVM physical volume that resides within it. I first
+        rebooted back into the Knoppix Live CD after removing the old drive (otherwise you may see
+        <q>Found duplicate PV</q> error messages).</p>
 
-<p>The next step was to expand the fourth (extended) partition of the new drive to fill
-the available space:</p>
+        <p>The next step was to expand the fourth (extended) partition of the new drive to fill
+        the available space:</p>
 
 <pre>
 parted /dev/sda
@@ -448,17 +481,17 @@ u s # Change Unit to Sectors
 print # Display current partitions
 </pre>
 
-<p>At this point take note of the starting sector of the fourth partition (<code>37611518</code>
-in my case) and the final sector of the disk (<code>231252993</code>). Now delete the fourth
-partition and create the new partition with the same starting sector (this ensures the data
-within the partition remains readable) and set the new final sector:</p>
+        <p>At this point take note of the starting sector of the fourth partition (<code>37611518</code>
+        in my case) and the final sector of the disk (<code>231252993</code>). Now delete the fourth
+        partition and create the new partition with the same starting sector (this ensures the data
+        within the partition remains readable) and set the new final sector:</p>
 
 <pre>
 rm 4
 mkpart extended 37611518s 500117503s
 </pre>
 
-<p>Now do the same for the LVM partition:</p>
+        <p>Now do the same for the LVM partition:</p>
 
 <pre>
 rm 5
@@ -467,48 +500,56 @@ toggle 5 lvm
 quit
 </pre>
 
-<p>The <code>quit</code> command will take you back to the normal prompt. It is recommended
-that you reboot the machine again at this point. Now you can see the current reported size
-of your LVM physical volume using the <code>pvscan</code> binary. To increase the size
-of the physical volume and take advantage of the newly available space, execute the
-<code>pvresize</code> binary:</p>
+        <p>The <code>quit</code> command will take you back to the normal prompt. It is recommended
+        that you reboot the machine again at this point. Now you can see the current reported size
+        of your LVM physical volume using the <code>pvscan</code> binary. To increase the size
+        of the physical volume and take advantage of the newly available space, execute the
+        <code>pvresize</code> binary:</p>
 
 <pre>
 pvresize /dev/sda5
 </pre>
 
-<p>Run <code>pvscan</code> again and the new size should be displayed. I use the
-<code>vgs</code> binary to give a nice readout of the available space within the volume
-group. Note this hasn't increased the size of any of the logical volumes within the
-volume group, only the physical volume itself.</p>
+        <p>Run <code>pvscan</code> again and the new size should be displayed. I use the
+        <code>vgs</code> binary to give a nice readout of the available space within the volume
+        group. Note this hasn't increased the size of any of the logical volumes within the
+        volume group, only the physical volume itself.</p>
 
-<a href="#">Back to top</a>
-</article>
+        <footer>
+        <a href="#">Back to top</a>
+        </footer>
+        </article>
 
 
-<article id="the-5-minute-lamp-stack">
-<h2><a href="#the-5-minute-lamp-stack">§</a>
-    <time datetime="2013-05-18">18<sup>th</sup> May 2013</time>
-    The 5-minute LAMP Stack</h2>
+        <article id="the-5-minute-lamp-stack">
+        <h2><a href="#the-5-minute-lamp-stack">§</a>
+            <time datetime="2013-05-18">18<sup>th</sup> May 2013</time>
+            The 5-minute LAMP Stack</h2>
 
-<p>With the <a href="http://www.debian.org/News/2013/20130504">release</a> of
-Debian 7.0 "Wheezy", PHP 5.4 is available though <code>apt-get</code> from the word go.
-This means it now only takes a few minutes to setup a lightweight web server capable of dealing with
-the latest web applications with very little configuration. I use the term
-<abbr title="Linux, Apache MySQL and PHP">LAMP</abbr> loosely in this article because
-it's easier to pronounce than <abbr title="Linux, NGINX, MySQL and PHP">LNMP</abbr>.</p>
+        <p>With the <a href="http://www.debian.org/News/2013/20130504">release</a> of
+        Debian 7.0 "Wheezy", PHP 5.4 is available though <code>apt-get</code> from the word go.
+        This means it now only takes a few minutes to setup a lightweight web server capable of dealing with
+        the latest web applications with very little configuration. I use the term
+        <abbr title="Linux, Apache MySQL and PHP">LAMP</abbr> loosely in this article because
+        it's easier to pronounce than <abbr title="Linux, NGINX, MySQL and PHP">LNMP</abbr>.</p>
 
-<p>My usual requirements for a web server are as follows:</p>
-<ul>
-  <li>NGINX 1.2+</li>
-  <li>PHP-FPM 5.4+</li>
-  <li>MySQL 5+</li>
-  <li>An SMTP Server <small>(I don't need a full-blown mail server)</small></li>
-</ul>
+        <aside>
+        <p>If you prefer a more bespoke solution that's capable of installing anything from PHP 5.2 through to 5.5 and
+        even allows for multiple versions to run concurrently, check out my
+        <a href="https://github.com/skl/phundamental">skl/phundamental</a> repo.</p>
+        </aside>
 
-<p>These are now all available in the Wheezy repositories, so all we need are a few commands.</p>
+        <p>My usual requirements for a web server are as follows:</p>
+        <ul>
+            <li>NGINX 1.2+</li>
+            <li>PHP-FPM 5.4+</li>
+            <li>MySQL 5+</li>
+            <li>An SMTP Server <small>(I don't need a full-blown mail server)</small></li>
+        </ul>
 
-<p>Firstly, for a fresh build you'll want to get the basics right:</p>
+        <p>These are now all available in the Wheezy repositories, so all we need are a few commands.</p>
+
+        <p>Firstly, for a fresh build you'll want to get the basics right:</p>
 <pre>
 apt-get install vim htop ntp nscd
 
@@ -518,23 +559,25 @@ hostname -F /etc/hostname
 dpkg-reconfigure tzdata
 </pre>
 
-<p>Grab the LAMP packages:</p>
+        <p>Grab the LAMP packages:</p>
 <pre>
 apt-get install nginx php5-cli php5-fpm php5-mysqlnd php5-xcache php5-curl mysql-server mysql-client
 </pre>
 
-<p>This is always good practice for your MySQL server:</p>
+        <p>This is always good practice for your MySQL server:</p>
 <pre>
 mysql_secure_installation
 </pre>
 
-<p>Setup SMTP, see Linode's <a href="https://library.linode.com/email/exim/send-only-mta-debian-6-squeeze">simple guide</a> for step-by-step instructions on the second command here:</p>
+        <p>Setup SMTP, see Linode's <a href="https://library.linode.com/email/exim/send-only-mta-debian-6-squeeze">simple guide</a>
+        for step-by-step instructions on the second command here:</p>
 <pre>
 apt-get install exim4-daemon-light mailutils
 dpkg-reconfigure exim4-config
 </pre>
 
-<p>Now let's lock down the server a bit, you may like to use <a href="https://gist.github.com/skl/5484738">this gist</a> as a base for your firewall rules - be sure to read through them though or you'll lock yourself out:</p>
+        <p>Now let's lock down the server a bit, you may like to use <a href="https://gist.github.com/skl/5484738">this gist</a>
+        as a base for your firewall rules - be sure to read through them though or you'll lock yourself out:</p>
 <pre>
 apt-get install iptables-persistent fail2ban
 
@@ -542,7 +585,7 @@ vim /etc/iptables/rules.v4 # Add your rules to this file
 service iptables-persistent restart
 </pre>
 
-<p>Time to wire PHP-FPM and NGINX together:</p>
+        <p>Time to wire PHP-FPM and NGINX together:</p>
 <pre>
 # Disable fix_pathinfo
 sed -i "s/^;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php5/fpm/php.ini
@@ -556,7 +599,7 @@ service php5-fpm restart
 mkdir /etc/nginx/global
 </pre>
 
-<p>Create the file <code>/etc/nginx/global/fpm.conf</code> and use the following for it's contents:</p>
+        <p>Create the file <code>/etc/nginx/global/fpm.conf</code> and use the following for it's contents:</p>
 <pre>
 location ~*\.php$ {
     try_files                $uri =404;
@@ -570,7 +613,7 @@ location ~*\.php$ {
 }
 </pre>
 
-<p>Nearly there, create your <code>server</code> block in <code>/etc/nginx/sites-available/your-domain.com</code>:</p>
+        <p>Nearly there, create your <code>server</code> block in <code>/etc/nginx/sites-available/your-domain.com</code>:</p>
 <pre>
 server {
     listen 80;
@@ -585,82 +628,88 @@ server {
 }
 </pre>
 
-<p>Finally, symlink your configuration file and reload NGINX:</p>
+        <p>Finally, symlink your configuration file and reload NGINX:</p>
 <pre>
 ln -s /etc/nginx/sites-available/your-domain.com /etc/nginx/sites-enabled/your-domain.com
 service nginx reload
 </pre>
 
-<p>That's it! As long as your DNS is pointing in the right place you should be good to go.</p>
+        <p>That's it! As long as your DNS is pointing in the right place you should be good to go.</p>
 
-<p>The setup above has been designed to give decent performance for PHP web applications. The
-<code>htop</code> binary gives a much nicer view of resource usage, whilst
-<code>ntp</code> keeps your clock in sync and <code>nscd</code> will cache DNS queries made
-by your web applications.</p>
+        <p>The setup above has been designed to give decent performance for PHP web applications. The
+        <code>htop</code> binary gives a much nicer view of resource usage, whilst
+        <code>ntp</code> keeps your clock in sync and <code>nscd</code> will cache DNS queries made
+        by your web applications.</p>
 
-<p>The PHP Fast-CGI Process Manager allows the web server to delegate
-run-time compilation of your PHP scripts to a separate process, unlike <code>mod_php5</code>
-for Apache. The MySQL Native Driver for PHP is the recommended option above
-<code>mysqli</code> and is part of the PHP core. Xcache will give you opcode caching, you
-could also use <abbr title="Alternative PHP Cache">APC</abbr> or Zend Opcache.</p>
+        <p>The PHP Fast-CGI Process Manager allows the web server to delegate
+        run-time compilation of your PHP scripts to a separate process, unlike <code>mod_php5</code>
+        for Apache. The MySQL Native Driver for PHP is the recommended option above
+        <code>mysqli</code> and is part of the PHP core. Xcache will give you opcode caching, you
+        could also use <abbr title="Alternative PHP Cache">APC</abbr> or Zend Opcache.</p>
 
-<p>Hopefully all of the above will result in decreased server load, latency and maximise
-throughput on your server by making the most of the available resources.</p>
+        <p>Hopefully all of the above will result in decreased server load, latency and maximise
+        throughput on your server by making the most of the available resources.</p>
 
-<a href="#">Back to top</a>
-</article>
+        <footer>
+        <a href="#">Back to top</a>
+        </footer>
+        </article>
 
 
-<article id="building-a-xen-hypervisor">
-<h2><a href="#building-a-xen-hypervisor">§</a>
-    <time datetime="2013-01-21">21<sup>st</sup> January 2013</time>
-    Building a Xen Hypervisor</h2>
+        <article id="building-a-xen-hypervisor">
+        <h2><a href="#building-a-xen-hypervisor">§</a>
+            <time datetime="2013-01-21">21<sup>st</sup> January 2013</time>
+            Building a Xen Hypervisor</h2>
 
-<p>Wikipedia states that <q>a hypervisor or virtual machine manager (VMM)
-is a piece of software, firmware or hardware that creates and runs
-virtual machines</q>.</p>
+        <blockquote>
+            <p>A hypervisor or virtual machine manager (VMM)
+            is a piece of software, firmware or hardware that creates and runs
+            virtual machines.</p>
 
-<p>I started off by reading about which operating systems were best suited to
-what I would've called the Xen host. I now know the correct terminology to
-be "Domain 0" or <code>dom0</code> &ndash; as hypervisor terminology dictates that each
-machine is a domain (including the host). It seems you can run Xen on a variety
-of Linux distributions but I noticed quite a bit of documentation and articles
-focusing on Debian. For this reason I picked Debian Squeeze.</p>
+            <cite><a href="http://en.wikipedia.org/wiki/Hypervisor">Wikipedia</a></cite>
+        </blockquote>
 
-<p>The primary hard drive on my target system is 120 GiB, this doesn't leave much
-room for the VMs. Luckily the <a href="http://wiki.xen.org/wiki/Xen_Beginners_Guide">Xen wiki</a>
-recommends <abbr title="Logical Volume Manager">LVM</abbr> which is trivial to setup using
-the Debian OS installer during dom0 creation. With the LVM partition in place on the drive I can
-easily grow and shrink partitions as requirements for each virtual machine
-changes over time. This allows me to make the most of what little space I have
-available on the drive.</p>
+        <p>I started off by reading about which operating systems were best suited to
+        what I would've called the Xen host. I now know the correct terminology to
+        be "Domain 0" or <code>dom0</code> &ndash; as hypervisor terminology dictates that each
+        machine is a domain (including the host). It seems you can run Xen on a variety
+        of Linux distributions but I noticed quite a bit of documentation and articles
+        focusing on Debian. For this reason I picked Debian Squeeze.</p>
 
-<p>Initial installation and configuration of Xen with Xen Tools can be done by
-following the <a href="http://wiki.debian.org/Xen">guide on the Debian wiki</a>.</p>
+        <p>The primary hard drive on my target system is 120 GiB, this doesn't leave much
+        room for the VMs. Luckily the <a href="http://wiki.xen.org/wiki/Xen_Beginners_Guide">Xen wiki</a>
+        recommends <abbr title="Logical Volume Manager">LVM</abbr> which is trivial to setup using
+        the Debian OS installer during dom0 creation. With the LVM partition in place on the drive I can
+        easily grow and shrink partitions as requirements for each virtual machine
+        changes over time. This allows me to make the most of what little space I have
+        available on the drive.</p>
 
-<p>One concern that struck me was that VMs would be able to access my home LAN as
-everything is connected to the same router. To solve this issue I setup four LAN subnets and 802.1q
-VLAN tagging in order to create network segregation. The following steps are
-not required to setup Xen, they just happen to suite my particular network
-setup and requirements.</p>
+        <p>Initial installation and configuration of Xen with Xen Tools can be done by
+        following the <a href="http://wiki.debian.org/Xen">guide on the Debian wiki</a>.</p>
 
-<p>Setup the VLANs on your router and make note of the tag IDs (10, 20, 30
-and 40 in my case).</p>
+        <p>One concern that struck me was that VMs would be able to access my home LAN as
+        everything is connected to the same router. To solve this issue I setup four LAN subnets and 802.1q
+        VLAN tagging in order to create network segregation. The following steps are
+        not required to setup Xen, they just happen to suite my particular network
+        setup and requirements.</p>
 
-<p>Enable the 802.1q kernel module and make it permanent:</p>
+        <p>Setup the VLANs on your router and make note of the tag IDs (10, 20, 30
+        and 40 in my case).</p>
+
+        <p>Enable the 802.1q kernel module and make it permanent:</p>
 
 <pre>
 modprobe 8021q &amp;&amp; echo '8021q' &gt;&gt; /etc/modules
 </pre>
 
-<p>Once you've done that you'll need to install the <kbd>vlan</kbd> package:</p>
+        <p>Once you've done that you'll need to install the <kbd>vlan</kbd> package:</p>
 
 <pre>
 apt-get install vlan
 </pre>
 
-<p>Setup the /etc/network/interfaces with as many of the above VLANs as you
-require for the dom0 and domUs, here's mine (shortened for display):</p>
+        <p>Setup the /etc/network/interfaces with as many of the above VLANs as you
+        require for the dom0 and domUs, here's mine (shortened for display):</p>
 
 <pre>
 # The local loopback interface
@@ -688,8 +737,8 @@ iface xenbr20 inet static
     bridge_maxwait 10
 </pre>
 
-<p>In order to give the VMs within the VLANs internet access you'll need to
-enable IPv4 forwarding and NAT on dom0:</p>
+        <p>In order to give the VMs within the VLANs internet access you'll need to
+        enable IPv4 forwarding and NAT on dom0:</p>
 
 <pre>
 echo 1 &gt; /proc/sys/net/ipv4/ip_forward
@@ -697,15 +746,15 @@ echo 'net.ipv4.ip_forward=1' &gt; /etc/sysctl.conf
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 </pre>
 
-<p>Ensuring that iptables retains these rules on boot:</p>
+        <p>Ensuring that iptables retains these rules on boot:</p>
 <pre>
 apt-get install iptables-persistent
 iptables-save &gt; /etc/iptables/rules
 </pre>
 
 
-<p>With all of this setup you can begin creating VMs. Here's an example using
-xen-tools to create a VM with hostname 'newvm':</p>
+        <p>With all of this setup you can begin creating VMs. Here's an example using
+        xen-tools to create a VM with hostname 'newvm':</p>
 
 <pre>
 xen-create-image --hostname=newvm \ # Each domU should have a different hostname
@@ -718,7 +767,7 @@ xen-create-image --hostname=newvm \ # Each domU should have a different hostname
     --passwd                        # Prompt for root password during creation
 </pre>
 
-<p>Here's a quick bash script that makes it easy to delete VMs:</p>
+        <p>Here's a quick bash script that makes it easy to delete VMs:</p>
 
 <pre>
 #!/bin/bash
@@ -729,48 +778,52 @@ xm delete $1
 xen-delete-image --lvm vg0 $1       # You may wish to change the LVM group here
 </pre>
 
-<p>Incidentally, LVM has an excellent snapshot feature which I've wrapped up into
-<a href="https://gist.github.com/skl/4679224">this gist</a>.</p>
+        <p>Incidentally, LVM has an excellent snapshot feature which I've wrapped up into
+        <a href="https://gist.github.com/skl/4679224">this gist</a>.</p>
 
-<a href="#">Back to top</a>
-</article>
+        <footer>
+        <a href="#">Back to top</a>
+        </footer>
+        </article>
 
 
-<article id="a-website-in-a-single-http-request">
-<h2><a href="#a-website-in-a-single-http-request">§</a>
-    <time datetime="2013-01-16">16<sup>th</sup> January 2013</time>
-    A Website in a Single HTTP Request</h2>
+        <article id="a-website-in-a-single-http-request">
+        <h2><a href="#a-website-in-a-single-http-request">§</a>
+            <time datetime="2013-01-16">16<sup>th</sup> January 2013</time>
+            A Website in a Single HTTP Request</h2>
 
-<p>This website has no assets. There are no CSS files, no external JavaScript
-sources files, no backend scripting engine and no database storage system. It's
-just one HTML file and that's it. I've decided to get back to basics with my
-personal site; maybe because I spend my working life optimising complex
-systems, it's a sort joyful escape.</p>
+        <p>This website has no assets. There are no CSS files, no external JavaScript
+        sources files, no backend scripting engine and no database storage system. It's
+        just one HTML file and that's it. I've decided to get back to basics with my
+        personal site; maybe because I spend my working life optimising complex
+        systems, it's a sort joyful escape.</p>
 
-<p>There's something about plain text that's always appealed to me. Besides
-character encoding there's not much really to worry about. I know what I'm
-typing now will display correctly on your laptop/phone/tablet, regardless of
-your browser &ndash; because there isn't really anything to go wrong. I guess
-it's like my first car in a way, forget about the electric windows, heated
-windscreen and all those other fancy gadgets and you still have a car.</p>
+        <p>There's something about plain text that's always appealed to me. Besides
+        character encoding there's not much really to worry about. I know what I'm
+        typing now will display correctly on your laptop/phone/tablet, regardless of
+        your browser &ndash; because there isn't really anything to go wrong. I guess
+        it's like my first car in a way, forget about the electric windows, heated
+        windscreen and all those other fancy gadgets and you still have a car.</p>
 
-<p>I must admit that resisting the temptation to use CSS3 transitions or pure
-JavaScript to spice up the interactivity layer is somewhat difficult. It does
-however provide a nice clean scope for the design. Either I can achieve it with
-raw HTML and a couple of lines of CSS or I'm simply not going to implement it
-here. I want to focus on the content of this site, I want to share what I'm
-learning as it's happening. Designing the next-best has been on my to-do list
-for too long.</p>
+        <p>I must admit that resisting the temptation to use CSS3 transitions or pure
+        JavaScript to spice up the interactivity layer is somewhat difficult. It does
+        however provide a nice clean scope for the design. Either I can achieve it with
+        raw HTML and a couple of lines of CSS or I'm simply not going to implement it
+        here. I want to focus on the content of this site, I want to share what I'm
+        learning as it's happening. Designing the next-best has been on my to-do list
+        for too long.</p>
 
-<p>All content on this site is free to share, just like the web should be.</p>
+        <p>All content on this site is free to share, just like the web should be.</p>
 
-<a href="#">Back to top</a>
-</article>
+        <footer>
+        <a href="#">Back to top</a>
+        </footer>
+        </article>
 
-<footer>
-    <a href="https://github.com/skl/skl.me" title="Spotted a mistake or want to contribute in another way?
-        Fork the repo and send me a pull request!">Contribute</a> |
-    Stephen Karl Lang <a href="http://creativecommons.org/licenses/by/3.0/">CC BY</a>
-</footer>
-</body>
+        <footer>
+        <a href="https://github.com/skl/skl.me" title="Spotted a mistake or want to contribute in another way?
+            Fork the repo and send me a pull request!">Contribute</a> |
+        Stephen Karl Lang <a href="http://creativecommons.org/licenses/by/3.0/">CC BY</a>
+        </footer>
+    </body>
 </html>
