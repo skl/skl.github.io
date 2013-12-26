@@ -218,12 +218,15 @@ synclient TapButton1=1 TapButton2=3 TapButton3=2 &amp;
 ( sleep 1 &amp;&amp; xgamma -gamma 1.150 ) &amp;
 </pre>
 
-        <p>Here's my <code>~/.Xmodmap</code> (with Caps Lock remapped to Control for my Vim tendencies):</p>
+        <p>Here's my <code>~/.Xmodmap</code> which suits the UK MacBook Air layout. There are a couple of caveats: the
+        <kbd>#</kbd> symbol is mapped to <kbd>§</kbd> key because <kbd>Alt+3</kbd> behaves differently in Crunchbang
+        (the <kbd>§</kbd> symbol is still available by pressing <kbd>Shift+§</kbd>) and I've remapped
+        <kbd>Caps Lock</kbd> to <kbd>Control</kbd> for my Vim tendencies:</p>
 
 <pre>
 keycode  11 = 2 at 2 at twosuperior oneeighth twosuperior
 keycode  48 = apostrophe quotedbl apostrophe quotedbl dead_circumflex dead_caron dead_circumflex
-keycode  49 = section plusminus section plusminus bar bar bar
+keycode  49 = numbersign section numbersign section bar bar bar
 keycode  51 = backslash bar
 keycode  66 = Caps_Lock NoSymbol Caps_Lock
 keycode  94 = grave asciitilde
