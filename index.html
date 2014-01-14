@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-    <head>
+    <head> <!-- {{{ -->
         <meta charset="utf-8">
         <title>skl</title>
 
@@ -52,10 +52,10 @@
             kbd, code {font-size:1em; font-family:'Andale Mono','Droid Sans Mono','Courier New',monospace; letter-spacing:0.1em}
             p code, p kbd {font-size:0.9em; line-height:1.6em}
         </style>
-    </head>
+    </head> <!-- }}} -->
 
     <body>
-        <header>
+        <header> <!-- {{{ -->
         <menu>
             <a href="http://delicious.com/skl_">delicious</a>
             <a href="http://flickr.com/photos/stephenlang">flickr</a>
@@ -64,10 +64,11 @@
             <a href="http://www.linkedin.com/in/stephenkarllang">linkedin</a>
             <a href="https://twitter.com/skl_">twitter</a>
         </menu>
-        </header>
+        </header> <!-- }}} -->
 
         <h6 title="Scroll over the list for more">Articles</h6>
         <nav>
+        <a href="#manually-downloading-vagrant-boxes">Manually Downloading Vagrant Boxes</a>
         <a href="#building-your-first-android-app">Building Your First Android App</a>
         <a href="#installing-crunchbang-linux-on-a-mid-2011-macbook-air">Installing Crunchbang Linux on a Mid 2011 MacBook Air</a>
         <a href="#vagrant-bridged-network-configuration-on-sles-11">Vagrant: Bridged Network Configuration on SLES 11</a>
@@ -81,7 +82,68 @@
         </nav>
 
 
-        <article id="building-your-first-android-app">
+        <article id="manually-downloading-vagrant-boxes"> <!-- {{{ -->
+        <h2><a href="#manually-downloading-vagrant-boxes">§</a>
+            <time datetime="2014-01-14">14<sup>th</sup> January 2014</time>
+            Manually Downloading Vagrant Boxes</h2>
+
+        <p>Vagrant sometimes takes a long time to download boxes from the internet, if this is the case
+        for you then you could try a download accelerator such as
+        <a href="https://addons.mozilla.org/en-US/firefox/addon/downthemall/">DownThemAll!</a>. The problem however, is
+        to get Vagrant to recognise the box you've manually downloaded when running <code>vagrant up</code>.</p>
+
+        <p>The first thing that you need to decide is the name of your box, I'll use <kbd>ubuntu1204_x86_64</kbd> in
+        this example. Your <kbd>Vagrantfile</kbd> should contain at least:</p>
+
+<pre>
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "ubuntu1204_x86_64"
+  config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210.box"
+end
+</pre>
+
+        <p>You can see that I've decided to use one of the Puppet Labs images from the URL above. Copy and paste this
+        URL into Firefox with DownThemAll! installed and you should get a decent transfer speed. Once downloaded, you'll
+        want to extract the <kbd>.box</kbd> file into <kbd>~/.vagrant.d/boxes/ubuntu1204_x86_64</kbd>:</p>
+
+<pre>
+cd ~/.vagrant.d/boxes
+mkdir ubuntu1204_x86_64
+cd ubuntu1204_x86_64
+mv ~/Downloads/ubuntu-server-12042-x64-vbox4210.box .
+</pre>
+
+        <p>Now that the <kbd>.box</kbd> file is in the right place, you just need to extract it with the usual
+        <kbd>tar</kbd> command:</p>
+
+<pre>
+tar xzf ubuntu-server-12042-x64-vbox4210.box
+rm ubuntu-server-12042-x64-vbox4210.box
+</pre>
+
+        <p>This should leave you with the following:</p>
+
+<pre>
+$ tree ~/.vagrant.d/boxes/ubuntu1204_x86_64/
+└── virtualbox
+    ├── Vagrantfile
+    ├── box-disk1.vmdk
+    ├── box.ovf
+    └── metadata.json
+</pre>
+
+        <p>Finally you're free to reference the <kbd>ubuntu1204_x86_64</kbd> in any <kbd>Vagrantfile</kbd> on your
+        system and when you run <code>vagrant up</code> it will pick up your manually cached version.</p>
+
+        <footer>
+        <a href="#">Back to top</a>
+        </footer>
+        </article> <!-- }}} -->
+
+
+        <article id="building-your-first-android-app"> <!-- {{{ -->
         <h2><a href="#building-your-first-android-app">§</a>
             <time datetime="2013-12-23">23<sup>rd</sup> December 2013</time>
             Building Your First Android App (without an <abbr title="Integrated Development Environment">IDE</abbr>)</h2>
@@ -171,10 +233,10 @@ adb install -r bin/MyFirstApp-debug.apk
         <footer>
         <a href="#">Back to top</a>
         </footer>
-        </article>
+        </article> <!-- }}} -->
 
 
-        <article id="installing-crunchbang-linux-on-a-mid-2011-macbook-air">
+        <article id="installing-crunchbang-linux-on-a-mid-2011-macbook-air"> <!-- {{{ -->
         <h2><a href="#installing-crunchbang-linux-on-a-mid-2011-macbook-air">§</a>
             <time datetime="2013-12-22">22<sup>nd</sup> December 2013</time>
             Installing Crunchbang Linux on a Mid 2011 MacBook Air</h2>
@@ -245,10 +307,10 @@ add Control = Control_L
         <footer>
         <a href="#">Back to top</a>
         </footer>
-        </article>
+        </article> <!-- }}} -->
 
 
-        <article id="vagrant-bridged-network-configuration-on-sles-11">
+        <article id="vagrant-bridged-network-configuration-on-sles-11"> <!-- {{{ -->
         <h2><a href="#vagrant-bridged-network-configuration-on-sles-11">§</a>
             <time datetime="2013-07-18">18<sup>th</sup> July 2013</time>
             Vagrant: Bridged Network Configuration on SLES 11</h2>
@@ -336,10 +398,10 @@ ping -Ieth1 -c1 ${MY_ROUTER_IP}
         <footer>
         <a href="#">Back to top</a>
         </footer>
-        </article>
+        </article> <!-- }}} -->
 
 
-        <article id="php-fpm-child-exited-with-code-70">
+        <article id="php-fpm-child-exited-with-code-70"> <!-- {{{ -->
         <h2><a href="#php-fpm-child-exited-with-code-70">§</a>
             <time datetime="2013-07-09">9<sup>th</sup> July 2013</time>
             PHP-FPM: Child exited with code 70</h2>
@@ -368,10 +430,10 @@ ping -Ieth1 -c1 ${MY_ROUTER_IP}
         <footer>
         <a href="#">Back to top</a>
         </footer>
-        </article>
+        </article> <!-- }}} -->
 
 
-        <article id="arch-linux-arm-with-unified-bin-and-lib-for-raspberry-pi">
+        <article id="arch-linux-arm-with-unified-bin-and-lib-for-raspberry-pi"> <!-- {{{ -->
         <h2><a href="#arch-linux-arm-with-unified-bin-and-lib-for-raspberry-pi">§</a>
             <time datetime="2013-06-25">25<sup>th</sup> June 2013</time>
             Arch Linux ARM with unified /bin and /lib for Raspberry Pi</h2>
@@ -400,10 +462,10 @@ filesystem: /bin exists in filesystem
         <footer>
         <a href="#">Back to top</a>
         </footer>
-        </article>
+        </article> <!-- }}} -->
 
 
-        <article id="improving-xen-performance-on-debian">
+        <article id="improving-xen-performance-on-debian"> <!-- {{{ -->
         <h2><a href="#improving-xen-performance-on-debian">§</a>
             <time datetime="2013-06-02">2<sup>nd</sup> June 2013</time>
             Improving Xen Performance on Debian</h2>
@@ -442,10 +504,10 @@ xm sched-credit -d Domain-0 -w 512
         <footer>
         <a href="#">Back to top</a>
         </footer>
-        </article>
+        </article> <!-- }}} -->
 
 
-        <article id="expanding-an-lvm-physical-volume">
+        <article id="expanding-an-lvm-physical-volume"> <!-- {{{ -->
         <h2><a href="#expanding-an-lvm-physical-volume">§</a>
             <time datetime="2013-05-30">30<sup>th</sup> May 2013</time>
             Expanding an LVM Physical Volume</h2>
@@ -521,10 +583,10 @@ pvresize /dev/sda5
         <footer>
         <a href="#">Back to top</a>
         </footer>
-        </article>
+        </article> <!-- }}} -->
 
 
-        <article id="the-5-minute-lamp-stack">
+        <article id="the-5-minute-lamp-stack"> <!-- {{{ -->
         <h2><a href="#the-5-minute-lamp-stack">§</a>
             <time datetime="2013-05-18">18<sup>th</sup> May 2013</time>
             The 5-minute LAMP Stack</h2>
@@ -656,10 +718,10 @@ service nginx reload
         <footer>
         <a href="#">Back to top</a>
         </footer>
-        </article>
+        </article> <!-- }}} -->
 
 
-        <article id="building-a-xen-hypervisor">
+        <article id="building-a-xen-hypervisor"> <!-- {{{ -->
         <h2><a href="#building-a-xen-hypervisor">§</a>
             <time datetime="2013-01-21">21<sup>st</sup> January 2013</time>
             Building a Xen Hypervisor</h2>
@@ -787,10 +849,10 @@ xen-delete-image --lvm vg0 $1       # You may wish to change the LVM group here
         <footer>
         <a href="#">Back to top</a>
         </footer>
-        </article>
+        </article> <!-- }}} -->
 
 
-        <article id="a-website-in-a-single-http-request">
+        <article id="a-website-in-a-single-http-request"> <!-- {{{ -->
         <h2><a href="#a-website-in-a-single-http-request">§</a>
             <time datetime="2013-01-16">16<sup>th</sup> January 2013</time>
             A Website in a Single HTTP Request</h2>
@@ -821,7 +883,7 @@ xen-delete-image --lvm vg0 $1       # You may wish to change the LVM group here
         <footer>
         <a href="#">Back to top</a>
         </footer>
-        </article>
+        </article> <!-- }}} -->
 
         <footer>
         <a href="https://github.com/skl/skl.me" title="Spotted a mistake or want to contribute in another way?
